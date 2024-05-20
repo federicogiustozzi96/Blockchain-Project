@@ -85,7 +85,17 @@ function clickCella() {
     if (mine.includes(cella.id)) {
         gameOver = true;
         revealMines();
-        alert("You earned "+count*6+" Donuts!");
+        var punteggio = count*6;
+        // send score to backend
+        fetch("/json", { 
+            method: "POST", 
+            mode: "no-cors",
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            }, 
+            body: JSON.stringify({ "minesweeper":punteggio }) 
+            })
+        alert("You earned "+punteggio+" Donuts!");
         return;
     }
 

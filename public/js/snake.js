@@ -47,6 +47,15 @@ function update() {
 
     
     if (gameOver) {
+        // send score to backend
+        fetch("/json", { 
+            method: "POST", 
+            mode: "no-cors",
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            }, 
+            body: JSON.stringify({ "snake":punteggio }) 
+            })
         alert("You earned "+punteggio/5+" Donuts!");
 		gameOver=false;
 		posX = blocco * 5;
