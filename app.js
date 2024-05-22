@@ -26,11 +26,14 @@ app.use(bodyParser.urlencoded({
   }));
 app.use(express.json());
 
+
 // use pattern view engine
 app.set("view engine", "hbs");
 
+
 // use the routes descripted in pages.js
 app.use("/", require("./routes/pages.js"))
+
 
 // manage the post requests at the /json address 
 app.post("/json", function (req, res) {

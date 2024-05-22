@@ -1,6 +1,5 @@
 .vscode
 .env
-.gitattributes
 
 hardhat.config.js
 package-lock.json
@@ -9,6 +8,8 @@ package.json
 node_modules
 contracts
 ignition
+node_modules
+
 
 # Hardhat files
 /cache
