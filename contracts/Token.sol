@@ -1,68 +1,66 @@
-//SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: UNLICENSED
+
+// Solidity files have to start with this pragma.
+// It will be used by the Solidity compiler to validate its version.
 pragma solidity ^0.8.0;
 
-contract HelloToken {
 
-    //indirizzo del possessore del contratto
+// This is the main building block for smart contracts.
+contract Token {
+    // Some string type variables to identify the token.
+    string public name = "My Hardhat Token";
+    string public symbol = "MHT";
+
+    // The fixed amount of tokens, stored in an unsigned integer type variable.
+    uint256 public totalSupply = 1000000;
+
+    // An address type variable is used to store ethereum accounts.
     address public owner;
 
-    //indirizzo del miner
-    address public minter;
+    // A mapping is a key/value map. Here we store each account's balance.
+    mapping(address => uint256) balances;
 
-    //bilancio in token dei vari utenti
-    //bilancio = {indirizzo => #token}
-    mapping (address => uint) balance;
+    // The Transfer event helps off-chain applications understand
+    // what happens within your contract.
+    event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
-    //prezzo del token
-    uint public constant PRICE = 2 * 1e15;
-
+    /**
+     * Contract initialization.
+     */
     constructor() {
-        minter = msg.sender;
+        // The totalSupply is assigned to the transaction sender, which is the
+        // account that is deploying the contract.
+        balances[msg.sender] = totalSupply;
+        owner = msg.sender;
     }
 
-    //modificatore onlyOwner: solo il possessore del contratto può utilizzare le funzioni con questo modificatore
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
+    /**
+     * A function to transfer tokens.
+     *
+     * The `external` modifier makes a function *only* callable from *outside*
+     * the contract.
+     */
+    function transfer(address to, uint256 amount) external {
+        // Check if the transaction sender has enough tokens.
+        // If `require`'s first argument evaluates to `false`, the
+        // transaction will revert.
+        require(balances[msg.sender] >= amount, "Not enough tokens");
+
+        // Transfer the amount.
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+
+        // Notify off-chain applications of the transfer.
+        emit Transfer(msg.sender, to, amount);
     }
 
-    //funzione per vedere quanti token possiedo
-    function getValue() public view returns(uint) {
-        return balance[msg.sender];
+    /**
+     * Read only function to retrieve the token balance of a given account.
+     *
+     * The `view` modifier indicates that it doesn't modify the contract's
+     * state, which allows us to call it without executing a transaction.
+     */
+    function balanceOf(address account) external view returns (uint256) {
+        return balances[account];
     }
-
-    //funzione per far vendere uno o più token dagli utenti
-    function sendViaCall(address payable _to, uint n_token) public payable onlyOwner {
-        // Call returns a boolean value indicating success or failure
-        // Pays user for each token sold
-        (bool sent, bytes memory data) = _to.call{value:n_token*PRICE}("");
-        require(sent, "Failed to send Ether");
-        balance[_to] -= n_token;
-        (data);
-    }
-
-    //funzione per dare token reward ad un utente
-    function reward(uint n_token) public {
-        balance[msg.sender] += n_token;
-    }
-
-    //funzione per acquistare token
-    function mint() public payable {
-        require(msg.value >= PRICE, "Not enough currency to buy a token!");
-        balance[msg.sender] += msg.value / PRICE;
-    }
-
-    //funzione per trasferire token ad un altro utente
-    function transfer(uint amount, address to) public {
-        require(balance[msg.sender] >= amount, "Not enough tokens!");
-        balance[msg.sender] -= amount;
-        balance[to] += amount;
-    }
-
-    //funzione per chiudere il contratto (solo chi l'ha invocato può chiuderlo)
-    function terminate() public {
-        require(msg.sender == minter, "You cannot terminate the contract!");
-        payable(minter).transfer(address(this).balance);
-    }
-
 }
