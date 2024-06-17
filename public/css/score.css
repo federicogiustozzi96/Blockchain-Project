@@ -23,15 +23,37 @@ body {
   min-height: 150vh;
 }
 
- .logo {
+ 
+.logo {
   position:relative;
+
   margin: auto;
   width: 600px;
   height: 350px;
-  top:20px;
   background-image: url(../img/donut.png);
   background-size:cover; 
 
+}
+
+.Wallet {
+  height: 40px;
+  padding-top:20px;
+  display:flex;
+  justify-content: right;
+}
+
+#connectWallet {
+  border: 3px solid black;
+  background-color:darkblue;
+  color:white;
+  margin-right: 30px;
+  border-radius: 40px;
+  padding:10px;
+}
+
+#connectWallet:hover {
+  transform: scale(1.2);
+  transition: all 0.3s;
 }
 
 
