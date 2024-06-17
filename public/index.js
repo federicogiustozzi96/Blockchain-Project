@@ -1,4 +1,4 @@
-const forwarerOrigin = 'http://localhost:5000';
+const forwarderOrigin = 'http://localhost:5000';
 
 const initialize = () => {
 
@@ -34,7 +34,7 @@ const initialize = () => {
     }
 
     const installMetamask = () => {
-        const onboarding = new MetamaskOnboarding({ forwarerOrigin })
+        const onboarding = new MetamaskOnboarding({ forwarderOrigin })
         connectButton.value = "Installation in progress";
         connectButton.disabled = true;
         onboarding.startOnboarding();
