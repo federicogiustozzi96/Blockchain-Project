@@ -1,46 +1,46 @@
+//index.js code
 const forwarderOrigin = 'http://localhost:5000';
 
 const initialize = () => {
+    const connectButton = document.getElementById('connectWallet');
+    const { ethereum } = window;
 
-    const connectButton = Document.getElementById('connectWallet');
-    const {ethereum} = window;
-
-    const onboardMetamaskClient = async() => {
-        if(!isMetamaskInstalled()) {
-            //prompt the user to install it
-            console.log("Metamask is not installed");
-            connectButton.value = "Click here to install Metamask";
-            connectButton.onclick = installMetamask;
+    const onboardMetaMaskClient = async () => {
+        if (!isMetamaskInstalled()) {
+            // prompt the user to install it
+            console.log("MetaMask is not installed :(");
+            connectButton.value = "Click here to install metamask";
+            connectButton.onclick = installMetaMask;
         } else {
-            console.log("Metamask is installed correctly");
-            connectButton.onclick = connectMetamask;
+            console.log("MetaMask is installed Hurray!!!!!");
+            connectButton.onclick = connectMetaMask;
         }
     }
 
-    const connectMetamask = async () => {
+    const connectMetaMask = async () => {
         connectButton.disabled = true;
         try {
-            const accounts = await ethereum.request({method: "eth_requestAccounts"});
+            const accounts = await ethereum.request({ method: "eth_requestAccounts" });
             connectButton.value = "Connected";
-            console.log("accounts: ", accounts)
+            console.log("accounts: ", accounts);
             connectButton.disabled = false;
-        } catch(err) {
-            console.error("error occurred while connecting to Metamask: ", err)
-        }    
+        } catch (err) {
+            console.error("error occured while connecting to MetaMask: ", err)
+        }
     }
 
     const isMetamaskInstalled = () => {
-        return ethereum && ethereum.isMetamask;
+        return ethereum && ethereum.isMetaMask;
     }
 
-    const installMetamask = () => {
-        const onboarding = new MetamaskOnboarding({ forwarderOrigin })
+    const installMetaMask = () => {
+        const onboarding = new MetaMaskOnboarding({ forwarderOrigin });
         connectButton.value = "Installation in progress";
         connectButton.disabled = true;
         onboarding.startOnboarding();
     }
 
-    onboardMetamaskClient();
+    onboardMetaMaskClient();
 };
 
 window.addEventListener('DOMContentLoaded', initialize);
