@@ -92,6 +92,6 @@ function Sell(e)
     else
     {
         risultato2.innerHTML="<p id=\"valid2\">≅ "+e.target.value/434334433+" ETH<p>"
-        sell=e.target.value/434334433
+        sell=e.target.value
     }
 }
