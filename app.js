@@ -51,6 +51,15 @@ app.post("/json", function (req, res) {
   })
   });
 
+  app.post("/buy", function (req, res) {
+    console.log(req.body) // populated!
+   
+  });
+
+  app.post("/sell", function (req, res) {
+    console.log(req.body) // populated!
+   
+  });
 
 // start webserver
 app.listen(5000, () => {

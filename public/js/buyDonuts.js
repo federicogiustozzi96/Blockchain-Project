@@ -1,9 +1,54 @@
 let input1 = document.getElementById("input1") 
 let risultato = document.getElementById("risultato1")
+let buyButton = document.getElementById("buttonBuy")
+let sellButton = document.getElementById("buttonSell")
 let regex = /^[a-zA-Z]+$/; 
+let buy = null
+let sell = null
 
 input1.addEventListener("input", Buy);
-  
+
+buyButton.addEventListener("click",buyContract)
+sellButton.addEventListener("click",sellContract)
+
+function buyContract()
+{
+    
+
+    if(buy!=null)
+    {
+    fetch("/buy", { 
+		method: "POST", 
+		mode: "no-cors",
+		headers: { 
+			'Content-Type': 'application/x-www-form-urlencoded', 
+		}, 
+		body: JSON.stringify({ "price":buy }) 
+		})
+        buy=null;
+    }
+    
+}
+
+function sellContract()
+{
+    if(sell!=null)
+        {
+    
+        
+        fetch("/sell", { 
+            method: "POST", 
+            mode: "no-cors",
+            headers: { 
+                'Content-Type': 'application/x-www-form-urlencoded', 
+            }, 
+            body: JSON.stringify({ "price":sell }) 
+            })
+        sell=null;
+        }
+}
+
+
 let input2 = document.getElementById("input2") 
 let risultato2 = document.getElementById("risultato2")
 
@@ -25,7 +70,10 @@ function Buy(e)
     else if (e.target.value <1000)
     risultato.innerHTML="<p id=\"minimum\">Minimum of 1000 Donuts<p>" 
     else
+    {
         risultato.innerHTML="<p id=\"valid\">≅ "+e.target.value/434334433+" ETH<p>" 
+        buy=e.target.value
+    }
 }
 
 function Sell(e)
@@ -42,6 +90,8 @@ function Sell(e)
     else if (e.target.value <1000)
     risultato2.innerHTML="<p id=\"minimum\">Minimum of 0.001 ETH<p>" 
     else
+    {
         risultato2.innerHTML="<p id=\"valid2\">≅ "+e.target.value/434334433+" ETH<p>"
-     
+        sell=e.target.value
+    }
 }
