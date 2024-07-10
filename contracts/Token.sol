@@ -2,7 +2,7 @@
 
 // Solidity files have to start with this pragma.
 // It will be used by the Solidity compiler to validate its version.
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.24;
 
 
 // This is the main building block for smart contracts.
@@ -23,6 +23,12 @@ contract Token {
     // The Transfer event helps off-chain applications understand
     // what happens within your contract.
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
+
+    // The Transfer event helps off-chain applications understand
+    // what happens within your contract.
+    event Buy(address indexed buyer, uint256 amount); 
+
+    uint256 public rate = 100; // Example rate: 1 ETH = 100 tokens
 
     /**
      * Contract initialization.
@@ -54,6 +60,20 @@ contract Token {
         emit Transfer(msg.sender, to, amount);
     }
 
+    function buyTokens() external payable {
+        uint256 amountToBuy = msg.value * rate;
+        require(amountToBuy > 0, "You need to send some Ether");
+        require(balances[owner] >= amountToBuy, "Not enough tokens available");
+        
+        // Transfer the tokens to the buyer
+        balances[owner] -= amountToBuy;
+        balances[msg.sender] += amountToBuy;
+
+        // Emit an event
+        emit Transfer(owner, msg.sender, amountToBuy);
+        emit Buy(msg.sender, amountToBuy);  
+    }
+
     /**
      * Read only function to retrieve the token balance of a given account.
      *
@@ -62,5 +82,13 @@ contract Token {
      */
     function balanceOf(address account) external view returns (uint256) {
         return balances[account];
+    }
+
+    /**
+     * Allow the owner to withdraw Ether from the contract.
+     */
+    function withdraw() external {
+        require(msg.sender == owner, "Only the owner can withdraw funds");
+        payable(owner).transfer(address(this).balance);
     }
 }
