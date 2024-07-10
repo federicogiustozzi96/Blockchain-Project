@@ -72,7 +72,7 @@ function Buy(e)
     else
     {
         risultato.innerHTML="<p id=\"valid\">≅ "+e.target.value/434334433+" ETH<p>" 
-        buy=e.target.value
+        buy=e.target.value/434334433
     }
 }
 
@@ -92,6 +92,6 @@ function Sell(e)
     else
     {
         risultato2.innerHTML="<p id=\"valid2\">≅ "+e.target.value/434334433+" ETH<p>"
-        sell=e.target.value
+        sell=e.target.value/434334433
     }
 }
