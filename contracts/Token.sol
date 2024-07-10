@@ -2,16 +2,25 @@
 
 // Solidity files have to start with this pragma.
 // It will be used by the Solidity compiler to validate its version.
+
+//Questa direttiva indica al compilatore di utilizzare la versione 0.8.24 di Solidity o successiva, ma non una versione maggiore di 0.9.0.
+//This directive tells the compiler to use Solidity version 0.8.24 or later, but not a version greater than 0.9.0.
 pragma solidity ^0.8.24;
 
 
 // This is the main building block for smart contracts.
 contract Token {
     // Some string type variables to identify the token.
-    string public name = "My Hardhat Token";
-    string public symbol = "MHT";
+    //Nome e simbolo Token
+    string public name = "Donuts";
+    string public symbol = "DNT";
 
     // The fixed amount of tokens, stored in an unsigned integer type variable.
+    //rappresenta la quantità totale di token che esistono nel sistema. 
+    //È una parte fondamentale di qualsiasi token ERC20-like, perché definisce quanti token sono stati creati e devono essere gestiti dal contratto. 
+    //totalSupply stabilisce la quantità totale di token che esistono fin dall'inizio e non può essere cambiata. 
+    //Questo aiuta a prevenire l'inflazione del token. Inizializzato a 1.000.000 token e assegnato interamente all'indirizzo che deploya il contratto (di solito il creatore). 
+    //E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
     uint256 public totalSupply = 1000000;
 
     // An address type variable is used to store ethereum accounts.
