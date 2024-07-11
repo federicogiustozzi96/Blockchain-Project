@@ -26,7 +26,7 @@ async function main() {
      */
     const token = await Token.deploy();
 
-    //Stampa l'indirizzo del contratto appena deployato sulla blockchain.
+    // Stampa l'indirizzo del contratto deployato
     console.log("Token deployed to:", token.address);
 }
 

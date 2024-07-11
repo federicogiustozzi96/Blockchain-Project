@@ -24,4 +24,8 @@ module.exports = {
       },
     },
   },
+  ethers: {
+    defaultChainId: 1337, // Id of the chain your contracts are deployed to (default: ganache)
+    // Other options...
+  },
 };
