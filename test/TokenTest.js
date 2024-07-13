@@ -53,7 +53,7 @@ describe("Token contract", function () {
             const initialOwnerBalance = await token.balanceOf(owner.address);
     
             // Try to transfer more tokens than owner has
-            const amountToSend = ethers.utils.parseEther("101"); // Amount greater than owner's balance
+            const amountToSend = ethers.parseEther("101"); // Amount greater than owner's balance
             await expect(token.connect(addr1).transfer(addr2.address, amountToSend))
                 .to.be.revertedWith("Not enough tokens");
     
@@ -66,7 +66,7 @@ describe("Token contract", function () {
     // Test per l'acquisto di token
     describe("Buy tokens", function () {
         it("Should allow users to buy tokens by sending ether", async function () {
-            const amountInEther = ethers.utils.parseEther("1"); // Converti 1 ether in wei
+            const amountInEther = ethers.parseEther("1"); // Converti 1 ether in wei
             await addr1.sendTransaction({ to: token.address, value: amountInEther });
             
             // Controlla che l'utente abbia ricevuto i token correttamente
@@ -78,7 +78,7 @@ describe("Token contract", function () {
     // Test per il ritiro di Ether
     describe("Withdraw", function () {
         it("Should allow the owner to withdraw Ether", async function () {
-            const amountInEther = ethers.utils.parseEther("1");
+            const amountInEther = ethers.parseEther("1");
             await addr1.sendTransaction({ to: token.address, value: amountInEther });
 
             const initialOwnerBalance = await ethers.provider.getBalance(owner.address);
