@@ -5,6 +5,9 @@ const path = require("path");
 var bodyParser = require('body-parser')
 
 const app = express();
+const dotenv = require("dotenv");
+
+dotenv.config({path: "./.env"});
 
 // access to database
 const db = mysql.createConnection({
@@ -13,6 +16,16 @@ const db = mysql.createConnection({
   password: process.env.DATABASE_PASSWORD, 
   database: process.env.DATABASE
 })
+db.connect ( (error) => {
+  if(error) 
+  {
+    console.log(error)
+  }
+  else
+  {
+    console.log("MYSQL Connected...")
+  }
+  })
 
 
 
@@ -34,21 +47,10 @@ app.set("view engine", "hbs");
 // use the routes descripted in pages.js
 app.use("/", require("./routes/pages.js"))
 
-
 // manage the post requests at the /json address 
 app.post("/json", function (req, res) {
     console.log(req.body) // populated!
 
-    // and now connect to database
-    db.connect ( (error) => {
-      if(error) {
-          console.log(error)
-      }
-      else
-      {
-          console.log("MYSQL Connected...")
-      }
-  })
   });
 
   app.post("/buy", function (req, res) {

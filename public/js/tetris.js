@@ -6,6 +6,9 @@ var y=0;
 var punteggio=0;
 var record =0;
 var linee=0;
+var username=""
+username=prompt("Insert your username");
+
 
 var schermo = [];
 for(var i=0; i<20; i++) 
@@ -347,13 +350,12 @@ function draw()
 		if(collide())
 		{
 		// send score to backend
-		fetch("/json", { 
+		fetch("/score", { 
 		method: "POST", 
-		mode: "no-cors",
 		headers: { 
-			'Content-Type': 'application/x-www-form-urlencoded', 
+			'Content-Type': 'application/json', 
 		}, 
-		body: JSON.stringify({ "tetris":punteggio }) 
+		body: JSON.stringify({ "game": "tetris", "username": username, "points":punteggio }) 
 		})
 			alert("You earned "+Math.floor(punteggio/10)+" Donuts!");
 			if(punteggio>record)

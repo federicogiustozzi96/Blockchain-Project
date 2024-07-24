@@ -25,7 +25,8 @@ var punteggio=0;
 
 var gameOver = false;
 var score;
-
+var username=""
+username=prompt("Insert your username");
 window.onload = function() {
     board = document.getElementById("board");
 
@@ -48,14 +49,13 @@ function update() {
     
     if (gameOver) {
         // send score to backend
-        fetch("/json", { 
+        fetch("/score", { 
             method: "POST", 
-            mode: "no-cors",
             headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded', 
+                'Content-Type': 'application/json', 
             }, 
-            body: JSON.stringify({ "snake":punteggio }) 
-            })
+            body: JSON.stringify({ "game": "snake", "username": username, "points":punteggio }) 
+        })
         alert("You earned "+punteggio/5+" Donuts!");
 		gameOver=false;
 		posX = blocco * 5;

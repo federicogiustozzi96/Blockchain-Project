@@ -34,33 +34,19 @@
                 <div>Tetris</div>
                 <div>Snake</div>
                 <div>Minesweeper</div>
+                <div>Total</div>
             </section>
+            {{#each scores}}
             <section>
-                <div>Franchino er criminale</div>
-                <div>500</div>
-                <div>832</div>
-                <div>600</div>
+                
+                <div>{{username}}</div>
+                <div>{{tetris}}</div>
+                <div>{{snake}}</div>
+                <div>{{minesweeper}}</div>
+                 <div>{{total}}</div>
+                 
             </section>
-            <section>
-                <div>er chicoria</div>
-                <div>550</div>
-                <div>688</div>
-                <div>400</div>
-            </section>
-            <section>
-                <div>Duke Montana</div>
-                <div>300</div>
-                <div>900</div>
-                <div>0</div>
-            </section>
-
-            <section>
-                <div>Mirko Tor Vergata</div>
-                <div>500</div>
-                <div>500</div>
-                <div>0</div>
-            </section>
-            
+            {{/each}}
         </article>
     </main>
     <footer>

@@ -19,9 +19,8 @@ function buyContract()
     {
     fetch("/buy", { 
 		method: "POST", 
-		mode: "no-cors",
 		headers: { 
-			'Content-Type': 'application/x-www-form-urlencoded', 
+			'Content-Type': 'application/json', 
 		}, 
 		body: JSON.stringify({ "price":buy }) 
 		})
@@ -38,9 +37,8 @@ function sellContract()
         
         fetch("/sell", { 
             method: "POST", 
-            mode: "no-cors",
             headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded', 
+                'Content-Type': 'application/json', 
             }, 
             body: JSON.stringify({ "price":sell }) 
             })

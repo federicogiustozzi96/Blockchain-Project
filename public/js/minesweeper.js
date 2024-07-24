@@ -9,7 +9,8 @@ var numeroCelle = 0;
 
 
 var gameOver = false;
-
+var username=""
+username=prompt("Insert your username");
 
 window.onload = function() {
     start();
@@ -87,13 +88,12 @@ function clickCella() {
         revealMines();
         var punteggio = count*6;
         // send score to backend
-        fetch("/json", { 
+        fetch("/score", { 
             method: "POST", 
-            mode: "no-cors",
             headers: { 
-                'Content-Type': 'application/x-www-form-urlencoded', 
+                'Content-Type': 'application/json', 
             }, 
-            body: JSON.stringify({ "minesweeper":punteggio }) 
+            body: JSON.stringify({ "game": "minesweeper", "username": username, "points":punteggio }) 
             })
         alert("You earned "+punteggio+" Donuts!");
         return;

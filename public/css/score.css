@@ -98,7 +98,7 @@ nav a:hover {
 article {
     background-color: var(--MENUCOLOR);
     min-height: 100px;
-    width:40%;
+    width:50%;
     margin:auto;
     border: 2px solid black;
     position: relative;
@@ -111,13 +111,14 @@ article {
 article section {
 
     display:grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(4,1fr)
+    grid-template-columns: repeat(5,1fr);
 }
 
 article section div {
     border: 2px solid black;
     margin: 1px;
     padding:10px;
+    word-break:break-word;
+
 }
 
