@@ -21,7 +21,7 @@ contract Token {
     //totalSupply stabilisce la quantità totale di token che esistono fin dall'inizio e non può essere cambiata. 
     //Questo aiuta a prevenire l'inflazione del token. Inizializzato a 1.000.000 token e assegnato interamente all'indirizzo che deploya il contratto (di solito il creatore). 
     //E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
-    uint256 public totalSupply = 1000000;
+    uint256 public totalSupply = 10000000000000000000000000000000000000000000000000000000000000000000000;
 
     // An address type variable is used to store ethereum accounts.
     //rappresenta l'indirizzo del proprietario del contratto, ovvero l'indirizzo che ha deployato il contratto. Questa variabile è importante per diverse ragioni:
@@ -70,6 +70,7 @@ contract Token {
      *  prende in input l'indirizzo ethereum 'to' a cui mandare una quantità di Token dettata da 'amount'
      *  'external' indica che la funzione può essere chiamata solo da fuori del contratto, non internamente (off-chain).
      */
+
     function transfer(address to, uint256 amount) external {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false`, the

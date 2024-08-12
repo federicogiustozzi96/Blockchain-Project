@@ -28,6 +28,13 @@ async function main() {
 
     // Stampa l'indirizzo del contratto deployato
     console.log("Token deployed to:", token.address);
+
+    try {
+        await addr1.sendTransaction({ to: token.address, value: amountInEther });
+    } catch (error) {
+        console.error("Errore nella transazione:", error);
+    }
+    
 }
 
 main()

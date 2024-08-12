@@ -15,12 +15,20 @@ describe("Token contract", function () {
 
     // Prima di ogni test, deploya il contratto Token
     beforeEach(async function () {
-        // Ottieni il contratto TokenFactory e gli indirizzi degli utenti
-        Token = await ethers.getContractFactory("Token");
-        [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+        try{
+            // Ottieni il contratto TokenFactory e gli indirizzi degli utenti
+            [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+            Token = await ethers.getContractFactory("Token");
 
-        // Deploya il contratto Token
-        token = await Token.deploy();
+            // Deploya il contratto Token
+            token = await Token.deploy();
+            await token.waitForDeployment();
+
+            console.log("Token contract deployed to:", token.target);
+        } catch (error) {
+            console.error("Errore durante la fase di deployment:", error);
+            throw error; // Rilancia l'errore per interrompere il test in caso di problemi
+        }
     });
 
     // Test per la deployment del contratto
@@ -67,11 +75,13 @@ describe("Token contract", function () {
     describe("Buy tokens", function () {
         it("Should allow users to buy tokens by sending ether", async function () {
             const amountInEther = ethers.parseEther("1"); // Converti 1 ether in wei
-            await addr1.sendTransaction({ to: token.address, value: amountInEther });
+            //await addr1.sendTransaction({ to: token.target, value: amountInEther });
             
+            await token.connect(addr1).buyTokens({ value: amountInEther });
+
             // Controlla che l'utente abbia ricevuto i token correttamente
             const addr1Balance = await token.balanceOf(addr1.address);
-            expect(addr1Balance).to.equal(amountInEther.mul(await token.rate()));
+            expect(addr1Balance).to.equal(amountInEther * (await token.rate()));
         });
     });
 
@@ -79,7 +89,7 @@ describe("Token contract", function () {
     describe("Withdraw", function () {
         it("Should allow the owner to withdraw Ether", async function () {
             const amountInEther = ethers.parseEther("1");
-            await addr1.sendTransaction({ to: token.address, value: amountInEther });
+            await addr1.sendTransaction({ to: token.target, value: amountInEther });
 
             const initialOwnerBalance = await ethers.provider.getBalance(owner.address);
             
