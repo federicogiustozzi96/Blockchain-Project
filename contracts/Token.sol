@@ -158,4 +158,15 @@ contract Token {
          */
         payable(owner).transfer(address(this).balance);
     }
+
+    // Per ricevere Ether senza chiamare una specifica funzione
+    receive() external payable {
+        // codice opzionale da eseguire quando il contratto riceve Ether
+    }
+
+    // Funzione di fallback, chiamata quando non viene trovato il selettore di funzione
+    fallback() external payable {
+        // codice opzionale
+    }
+
 }

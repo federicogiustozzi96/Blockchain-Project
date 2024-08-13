@@ -13,22 +13,16 @@ describe("Token contract", function () {
     let addr2;
     let addrs;
 
-    // Prima di ogni test, deploya il contratto Token
+    // Prima di ogni test, distribuisce il contratto Token
     beforeEach(async function () {
-        try{
-            // Ottieni il contratto TokenFactory e gli indirizzi degli utenti
-            [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
-            Token = await ethers.getContractFactory("Token");
+        
+        // Ottieni il contratto TokenFactory e gli indirizzi degli utenti
+        [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+        Token = await ethers.getContractFactory("Token");
 
-            // Deploya il contratto Token
-            token = await Token.deploy();
-            await token.waitForDeployment();
-
-            console.log("Token contract deployed to:", token.target);
-        } catch (error) {
-            console.error("Errore durante la fase di deployment:", error);
-            throw error; // Rilancia l'errore per interrompere il test in caso di problemi
-        }
+        // Distribuisce il contratto Token
+        token = await Token.deploy();
+        await token.waitForDeployment();
     });
 
     // Test per la deployment del contratto
@@ -75,7 +69,7 @@ describe("Token contract", function () {
     describe("Buy tokens", function () {
         it("Should allow users to buy tokens by sending ether", async function () {
             const amountInEther = ethers.parseEther("1"); // Converti 1 ether in wei
-            //await addr1.sendTransaction({ to: token.target, value: amountInEther });
+            await addr1.sendTransaction({ to: token.target, value: amountInEther });
             
             await token.connect(addr1).buyTokens({ value: amountInEther });
 
