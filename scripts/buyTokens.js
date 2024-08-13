@@ -12,7 +12,7 @@ const privateKey = process.env.PRIVATE_KEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 
 // Indirizzo del contratto e ABI
-const contractAddress = '0xc00a33bA150D8F62788887A80db30110Cc90Cd69';
+const contractAddress = '0x8Eaa0092BA008925f796E558c1C25aaC478a8F14';
 const contractABI = [
     // L'ABI dovrebbe includere la definizione della funzione buyTokens
     "function buyTokens(uint256 amount) public payable"
@@ -31,7 +31,7 @@ async function buyTokens(amount) {
         const tx = await contract.buyTokens(amount, { value: valueToSend });
         console.log('Transaction sent:', tx.hash);
 
-        // Attendere la conferma della transazione
+        // Attendere la conferma della transazione        
         const receipt = await tx.wait();
         console.log('Transaction mined:', receipt.transactionHash);
     } catch (error) {
@@ -39,7 +39,5 @@ async function buyTokens(amount) {
     }
 }
 
-// Esegui la funzione
-//buyTokens(1000); // Sostituisci 1000 con l'importo di token che desideri acquistare
-
+// Esporta la funzione
 module.exports = { buyTokens }
