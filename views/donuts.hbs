@@ -56,6 +56,41 @@
                 <div><a href="#">Buy!</a></div>
             </section>
         </article>
+
+        <!-- prova connessione tasto buy -->
+        <script>
+            document.getElementById('buyButton').addEventListener('click', async (event) => {
+                event.preventDefault();  // Previene il comportamento predefinito del link
+
+                const n_token = document.getElementById('input1').value;
+
+                if (!n_token || isNaN(n_token)) {
+                    alert('Please enter a valid number of tokens.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('http://localhost:5000/buy', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ n_token: parseInt(n_token, 10) })
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Transaction successful! Tx Hash: ' + result.transactionHash);
+                    } else {
+                        alert('Transaction failed: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                }
+            });
+        </script>
+        <!-- fine prova -->
         
         <article>
             <section id="sell">

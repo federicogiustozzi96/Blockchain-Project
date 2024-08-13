@@ -1,15 +1,17 @@
 //istantiate the classes
 const express = require("express");
-const mysql = require("mysql");
+//const mysql = require("mysql");
 const path = require("path");
 var bodyParser = require('body-parser')
 
 const app = express();
 const dotenv = require("dotenv");
 
+const { buyTokens } = require('./scripts/buyTokens.js')
+
 dotenv.config({path: "./.env"});
 
-// access to database
+/* access to database
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -27,7 +29,7 @@ db.connect ( (error) => {
   }
   })
 
-
+*/
 
 // mount and use public directory
 const publicDirectory = path.join(__dirname, "./public");
@@ -55,6 +57,7 @@ app.post("/json", function (req, res) {
 
   app.post("/buy", function (req, res) {
     console.log(req.body) // populated!
+    buyTokens(1000)
    
   });
 
