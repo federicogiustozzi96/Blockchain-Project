@@ -21,7 +21,7 @@ contract Token {
     //totalSupply stabilisce la quantità totale di token che esistono fin dall'inizio e non può essere cambiata. 
     //Questo aiuta a prevenire l'inflazione del token. Inizializzato a 1.000.000 token e assegnato interamente all'indirizzo che deploya il contratto (di solito il creatore). 
     //E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
-    uint256 public totalSupply = 10000000000000000000000000000000000000000000000000000000000000000000000;
+    uint256 public totalSupply = 1000000;
 
     // An address type variable is used to store ethereum accounts.
     //rappresenta l'indirizzo del proprietario del contratto, ovvero l'indirizzo che ha deployato il contratto. Questa variabile è importante per diverse ragioni:
@@ -119,6 +119,8 @@ contract Token {
         balances[owner] -= amountToBuy; //Deduce l'importo dei token dal saldo del proprietario del contratto.
         balances[msg.sender] += amountToBuy; // Aggiunge l'importo dei token al saldo dell'acquirente.
 
+
+
         // Emit an event
         /**
          * Emissione dell'evento Transfer per notificare che i token sono stati trasferiti dal proprietario all'acquirente. 
@@ -128,6 +130,18 @@ contract Token {
          * Emissione dell'evento Buy per notificare che l'acquirente ha acquistato token.
          */
         emit Buy(msg.sender, amountToBuy);  
+    }
+
+    // Funzione utilizzata per ricompensare chi ottiene un buon punteggio sui giochi o sulle quest
+    function reward(uint256 amountToReward) external {
+        require(balances[owner] >= amountToReward, "Not enough tokens available");
+
+        // Transfer the tokens to the winner
+        balances[owner] -= amountToReward; //Deduce l'importo dei token dal saldo del proprietario del contratto.
+        balances[msg.sender] += amountToReward; // Aggiunge l'importo dei token al saldo dell'acquirente.
+
+        //Emissione dell'evento Transfer per notificare che i token sono stati trasferiti dal proprietario all'acquirente.
+        emit Transfer(owner, msg.sender, amountToReward);
     }
 
     /**
