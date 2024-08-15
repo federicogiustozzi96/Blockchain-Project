@@ -7,7 +7,7 @@ var bodyParser = require('body-parser')
 const app = express();
 const dotenv = require("dotenv");
 
-const { buyTokens } = require('./scripts/buyTokens.js')
+const { buyTokens } = require('./scripts/Backend.js')
 
 dotenv.config({path: "./.env"});
 
