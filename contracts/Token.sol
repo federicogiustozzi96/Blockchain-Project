@@ -41,8 +41,8 @@ contract Token {
     //utilizzato per registrare quando un utente acquista token tramite la funzione buyTokens.
     event Buy(address indexed buyer, uint256 amount); 
 
-    uint256 public rate = 100; // Example rate: 1 ETH = 100 tokens
-
+    uint256 public rate = 1000000000000; // Example rate: 1 ETH = 100 tokens
+                          
     /**
      * Contract initialization.
      * parte cruciale del processo di inizializzazione. Viene eseguita una sola volta, quando il contratto viene distribuito (deployato) sulla blockchain.
@@ -103,8 +103,9 @@ contract Token {
          * msg.value: La quantità di Ether inviata nella transazione.
          * rate: La variabile che rappresenta il tasso di conversione da Ether a token (ad esempio, 1 Ether = 100 token).
          */
-        uint256 amountToBuy = msg.value * rate;
-        console.log("Amount to buy: ", amountToBuy);
+        //console.log("Value: ", msg.value);
+        uint256 amountToBuy = msg.value / rate;
+        //console.log("Amount to buy: ", amountToBuy);
         /**
          * Verifica che l'importo di token calcolato sia maggiore di zero. 
          * Se non è così, la transazione viene annullata con il messaggio "You need to send some Ether".
@@ -119,8 +120,8 @@ contract Token {
         // Transfer the tokens to the buyer
         balances[owner] -= amountToBuy; //Deduce l'importo dei token dal saldo del proprietario del contratto.
         balances[msg.sender] += amountToBuy; // Aggiunge l'importo dei token al saldo dell'acquirente.
-
-
+        console.log("Indirizzo utente: ", msg.sender);
+        console.log("Bilancio token utente: ", balances[msg.sender]);
 
         // Emit an event
         /**

@@ -69,8 +69,8 @@ function Buy(e)
     risultato.innerHTML="<p id=\"minimum\">Minimum of 1 Donuts<p>" 
     else
     {
-        risultato.innerHTML="<p id=\"valid\">≅ "+e.target.value/100+" ETH<p>" 
-        buy=e.target.value/100
+        risultato.innerHTML="<p id=\"valid\">≅ "+e.target.value/1000000+" ETH<p>" 
+        buy=e.target.value/1000000
     }
 }
 
