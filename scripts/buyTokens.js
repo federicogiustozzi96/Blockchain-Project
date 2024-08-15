@@ -22,14 +22,14 @@ const contractABI = [
 // Creare un'istanza del contratto
 const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 
-// Definire la funzione per acquistare i token
+// Definire la funzione per acquistare i token 
 async function buyTokens(amount) {
     // Imposta il valore che vuoi inviare (ad esempio, 1 ETH)
-    const valueToSend = ethers.parseEther('1.0');
+    const valueToSend = ethers.parseEther(amount);
 
     try {
         // Eseguire la transazione chiamando la funzione buyTokens
-        const tx = await contract.buyTokens(amount, { value: valueToSend });
+        const tx = await contract.buyTokens({ value: valueToSend });
         console.log('Transaction sent:', tx.hash);
 
         // Attendere la conferma della transazione        

@@ -57,7 +57,7 @@ app.post("/json", function (req, res) {
 
   app.post("/buy", function (req, res) {
     console.log(req.body) // populated!
-    buyTokens(1000)
+    buyTokens(req.body.price.toString())
    
   });
 
