@@ -6,7 +6,7 @@
 //Questa direttiva indica al compilatore di utilizzare la versione 0.8.24 di Solidity o successiva, ma non una versione maggiore di 0.9.0.
 //This directive tells the compiler to use Solidity version 0.8.24 or later, but not a version greater than 0.9.0.
 pragma solidity ^0.8.24;
-
+import "hardhat/console.sol";
 
 // This is the main building block for smart contracts.
 contract Token {
@@ -104,6 +104,7 @@ contract Token {
          * rate: La variabile che rappresenta il tasso di conversione da Ether a token (ad esempio, 1 Ether = 100 token).
          */
         uint256 amountToBuy = msg.value * rate;
+        console.log("Amount to buy: ", amountToBuy);
         /**
          * Verifica che l'importo di token calcolato sia maggiore di zero. 
          * Se non è così, la transazione viene annullata con il messaggio "You need to send some Ether".

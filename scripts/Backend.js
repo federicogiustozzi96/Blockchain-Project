@@ -15,7 +15,7 @@ const wallet = new ethers.Wallet(privateKey, provider);
 const contractAddress = '0x8Eaa0092BA008925f796E558c1C25aaC478a8F14';
 const contractABI = [
     // L'ABI dovrebbe includere la definizione della funzione buyTokens
-    "function buyTokens(uint256 amount) public payable",
+    "function buyToken(uint256 amount) public payable",
     "function reward(uint256 amountToReward) external"
 ];
 
@@ -26,10 +26,12 @@ const contract = new ethers.Contract(contractAddress, contractABI, wallet);
 async function buyTokens(amount) {
     // Imposta il valore che vuoi inviare (ad esempio, 1 ETH)
     const valueToSend = ethers.parseEther(amount);
+    //console.log('Tipo di amount: ', typeof valueToSend);
 
     try {
         // Eseguire la transazione chiamando la funzione buyTokens
-        const tx = await contract.buyTokens({ value: valueToSend });
+        const tx = await contract.buyTokens(valueToSend);
+
         console.log('Transaction sent:', tx.hash);
 
         // Attendere la conferma della transazione        
