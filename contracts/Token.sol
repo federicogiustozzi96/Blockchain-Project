@@ -135,8 +135,8 @@ contract Token {
         // Transfer the tokens to the buyer
         balances[owner] -= amountToBuy; //Deduce l'importo dei token dal saldo del proprietario del contratto.
         balances[msg.sender] += amountToBuy; // Aggiunge l'importo dei token al saldo dell'acquirente.
-        console.log("Indirizzo utente: ", msg.sender);
-        console.log("Bilancio token utente: ", balances[msg.sender]);
+        //console.log("Indirizzo utente: ", msg.sender);
+        //console.log("Bilancio token utente: ", balances[msg.sender]);
 
         // Emit an event
         /**
