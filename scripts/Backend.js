@@ -17,11 +17,18 @@ const contractABI = [
     // L'ABI dovrebbe includere la definizione della funzione buyTokens
     "function buyTokens() public payable",
     "function reward(uint256 amountToReward) external",
-    "function sellToken(uint256 amountToSell) external"
+    "function sellToken(uint256 amountToSell) external",
+    "function balanceOf(address account)"
 ];
 
 // Creare un'istanza del contratto
 const contract = new ethers.Contract(contractAddress, contractABI, wallet);
+
+async function updateBalance() {
+    const balance = await contract.balanceOf(wallet.address);
+    console.log("Updated balance:", balance.toString());
+    // Aggiorna l'interfaccia utente con il nuovo bilancio
+}
 
 // Definire la funzione per acquistare i token 
 async function buyToken(amount) {
@@ -38,6 +45,9 @@ async function buyToken(amount) {
         // Attendere la conferma della transazione        
         const receipt = await tx.wait();
         console.log('Transaction mined:', receipt.hash);
+
+        // Aggiorna il bilancio dopo l'acquisto
+        await updateBalance();
     } catch (error) {
         console.error('Error buying tokens:', error);
     }
@@ -53,6 +63,9 @@ async function sell(amountToSell) {
         // Attendere la conferma della transazione
         const receipt = await tx.wait();
         console.log('Sell transaction mined:', receipt.hash);
+
+        // Aggiorna il bilancio dopo la vendita
+        await updateBalance();
     } catch (error) {
         console.error('Error selling tokens:', error);
     }
@@ -68,6 +81,9 @@ async function reward(amountToReward) {
         // Attendere la conferma della transazione
         const receipt = await tx.wait();
         console.log('Reward transaction mined:', receipt.hash);
+
+        // Aggiorna il bilancio dopo il reward
+        await updateBalance();
     } catch (error) {
         console.error('Error executing reward:', error);
     }
