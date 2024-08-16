@@ -12,7 +12,7 @@ const privateKey = process.env.PRIVATE_KEY_1;
 const wallet = new ethers.Wallet(privateKey, provider);
 
 // Indirizzo del contratto e ABI
-const contractAddress = '0x8Eaa0092BA008925f796E558c1C25aaC478a8F14';
+const contractAddress = process.env.CONTRACT_ADDRESS;
 const contractABI = [
     // L'ABI dovrebbe includere la definizione della funzione buyTokens
     "function buyTokens() public payable",
