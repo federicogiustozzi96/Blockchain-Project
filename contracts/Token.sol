@@ -134,6 +134,33 @@ contract Token {
         emit Buy(msg.sender, amountToBuy);  
     }
 
+    /**
+     * Consente agli utenti di vendere i propri token in cambio di Ether.
+     * Il modificatore external indica che la funzione può essere chiamata solo da fuori del contratto, non internamente.
+     */
+    function sellToken(uint256 amountToSell) external {
+        // Assicurati che l'utente abbia abbastanza token da vendere.
+        require(balances[msg.sender] >= amountToSell, "Not enough tokens to sell");
+
+        // Calcola l'importo di Ether da restituire all'utente.
+        uint256 etherAmount = amountToSell * rate;
+
+        // Verifica che il contratto abbia abbastanza Ether per effettuare l'acquisto.
+        require(address(this).balance >= etherAmount, "Not enough Ether in the contract");
+
+        // Deduce l'importo dei token dal saldo del venditore.
+        balances[msg.sender] -= amountToSell;
+
+        // Aggiunge l'importo dei token al saldo del proprietario del contratto.
+        balances[owner] += amountToSell;
+
+        // Trasferisce l'importo di Ether calcolato al venditore.
+        payable(msg.sender).transfer(etherAmount);
+
+        // Emissione dell'evento Transfer per notificare che i token sono stati trasferiti dal venditore al proprietario.
+        emit Transfer(msg.sender, owner, amountToSell);
+    }
+
     // Funzione utilizzata per ricompensare chi ottiene un buon punteggio sui giochi o sulle quest
     function reward(uint256 amountToReward) external {
         require(balances[owner] >= amountToReward, "Not enough tokens available");

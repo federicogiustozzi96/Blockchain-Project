@@ -16,7 +16,8 @@ const contractAddress = '0x8Eaa0092BA008925f796E558c1C25aaC478a8F14';
 const contractABI = [
     // L'ABI dovrebbe includere la definizione della funzione buyTokens
     "function buyTokens() public payable",
-    "function reward(uint256 amountToReward) external"
+    "function reward(uint256 amountToReward) external",
+    "function sellToken(uint256 amountToSell) external"
 ];
 
 // Creare un'istanza del contratto
@@ -42,6 +43,21 @@ async function buyToken(amount) {
     }
 }
 
+// Definire la funzione per vendere i token
+async function sell(amountToSell) {
+    try {
+        // Eseguire la transazione chiamando la funzione sellToken
+        const tx = await contract.sellToken(amountToSell);
+        console.log('Sell transaction sent:', tx.hash);
+
+        // Attendere la conferma della transazione
+        const receipt = await tx.wait();
+        console.log('Sell transaction mined:', receipt.hash);
+    } catch (error) {
+        console.error('Error selling tokens:', error);
+    }
+}
+
 // Definire la funzione per richiamare la funzione reward
 async function reward(amountToReward) {
     try {
@@ -58,4 +74,4 @@ async function reward(amountToReward) {
 }
 
 // Esporta la funzione
-module.exports = { buyToken, reward }
+module.exports = { buyToken, reward, sell }

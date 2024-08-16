@@ -85,11 +85,11 @@ function Sell(e)
         risultato2.innerHTML="<p id=\"invalid\">invalid input<p>" 
             
     }
-    else if (e.target.value <1000)
+    else if (e.target.value <1)
     risultato2.innerHTML="<p id=\"minimum\">Minimum of 0.001 ETH<p>" 
     else
     {
-        risultato2.innerHTML="<p id=\"valid2\">≅ "+e.target.value/434334433+" ETH<p>"
+        risultato2.innerHTML="<p id=\"valid2\">≅ "+e.target.value/1000000+" ETH<p>"
         sell=e.target.value
     }
 }
