@@ -45,10 +45,18 @@ exports.register = (req,res) => {
                 }
             })
         }
+        db.query(`SELECT username FROM Scores ORDER BY total DESC LIMIT 3`, (error, results) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).send("Database query error");
+            }
+            //console.log(results)
+            res.json(results);
+        })
+    
         
         
     })
-        
     
 }
 

@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const scoreController = require("../scores")
+const rewardsController = require("../rewards")
 
 // manage get request at /
 router.get("/", (req,res)=> {
@@ -10,6 +11,8 @@ router.get("/", (req,res)=> {
 
 router.post("/score",scoreController.register );
 router.get("/score",scoreController.reveal );
+router.post("/rewards",rewardsController.action );
+
 
 // fix ico problems
 router.get('/favicon.ico', (req, res) => {

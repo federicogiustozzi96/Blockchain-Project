@@ -87,15 +87,33 @@ function clickCella() {
         gameOver = true;
         revealMines();
         var punteggio = count*6;
-        // send score to backend
-        fetch("/score", { 
-            method: "POST", 
-            headers: { 
-                'Content-Type': 'application/json', 
-            }, 
-            body: JSON.stringify({ "game": "minesweeper", "username": username, "points":punteggio }) 
-            })
-        alert("You earned "+punteggio+" Donuts!");
+        let posizione = -1; // Inizializza posizione con -1 per indicare che non è stata trovata
+			let punteggioCorrente = punteggio; // Salva il punteggio attuale in una variabile locale
+			
+			fetch("/score", {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ "game": "tetris", "username": username, "points": punteggioCorrente })
+			}).then(response => response.json()).then(data => {
+				data.forEach((player, index) => {
+					if (player.username === username) {
+						posizione = index + 1;
+					}
+				});
+				
+				if (posizione > 0) {
+					alert(`You are the ${posizione}th player You earned ${punteggioCorrente} Donuts!`);
+					fetch("/rewards", {
+						method: "POST",
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({"points": punteggioCorrente })
+					})
+				} 
+			}).catch(error => console.error('Errore:', error));
         return;
     }
 

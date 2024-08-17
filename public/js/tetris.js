@@ -7,6 +7,8 @@ var punteggio=0;
 var record =0;
 var linee=0;
 var username=""
+
+var flag = true
 username=prompt("Insert your username");
 
 
@@ -349,15 +351,34 @@ function draw()
 		pezzoW=pezzo[0].length;
 		if(collide())
 		{
-		// send score to backend
-		fetch("/score", { 
-		method: "POST", 
-		headers: { 
-			'Content-Type': 'application/json', 
-		}, 
-		body: JSON.stringify({ "game": "tetris", "username": username, "points":punteggio }) 
-		})
-			alert("You earned "+Math.floor(punteggio/10)+" Donuts!");
+			let posizione = -1; // Inizializza posizione con -1 per indicare che non è stata trovata
+			let punteggioCorrente = punteggio; // Salva il punteggio attuale in una variabile locale
+			
+			fetch("/score", {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ "game": "tetris", "username": username, "points": punteggioCorrente })
+			}).then(response => response.json()).then(data => {
+				data.forEach((player, index) => {
+					if (player.username === username) {
+						posizione = index + 1;
+					}
+				});
+				
+				if (posizione > 0) {
+					alert(`You are the ${posizione}th player You earned ${punteggioCorrente} Donuts!`);
+					fetch("/rewards", {
+						method: "POST",
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({"points": punteggioCorrente })
+					})
+				} 
+			}).catch(error => console.error('Errore:', error));
+			//alert("You earned "+Math.floor(punteggio/10)+" Donuts!");
 			if(punteggio>record)
 				record=punteggio;
 			for(var i=0; i<20; i++) 
@@ -368,6 +389,8 @@ function draw()
     				schermo[i][j]="t";
     			}
 			}
+			//alert(`You are the ${posizione+1}th player You earned ${punteggio} Donuts! `);
+		
 			punteggio=0;
 			linee=0;
 		}	
