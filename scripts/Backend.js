@@ -11,6 +11,9 @@ const privateKey = process.env.PRIVATE_KEY_1;
 // Creare un'istanza del wallet
 const wallet = new ethers.Wallet(privateKey, provider);
 
+// Creare un'istanza dell'utente che ha richiamato il contratto
+const signer = new ethers.Wallet(process.env.PRIVATE_KEY_1, provider);
+
 // Indirizzo del contratto e ABI
 const contractAddress = process.env.CONTRACT_ADDRESS;
 const contractABI = [
@@ -71,7 +74,7 @@ async function sell(amountToSell) {
     }
 }
 
-// Definire la funzione per richiamare la funzione reward
+/* Definire la funzione per richiamare la funzione reward
 async function reward(amountToReward) {
     try {
         // Eseguire la transazione chiamando la funzione reward
@@ -87,7 +90,28 @@ async function reward(amountToReward) {
     } catch (error) {
         console.error('Error executing reward:', error);
     }
+}*/
+
+async function reward(amountToReward) {
+    try {
+        // Ottieni il nonce corrente
+        const nonce = await provider.getTransactionCount(signer.getAddress(), 'latest');
+
+        // Eseguire la transazione chiamando la funzione reward con il nonce specificato
+        const tx = await contract.reward(amountToReward, { nonce: nonce });
+        console.log('Reward transaction sent:', tx.hash);
+
+        // Attendere la conferma della transazione
+        const receipt = await tx.wait();
+        console.log('Reward transaction mined:', receipt.hash);
+
+        // Aggiorna il bilancio dopo il reward
+        await updateBalance();
+    } catch (error) {
+        console.error('Error executing reward:', error);
+    }
 }
+
 
 // Esporta la funzione
 module.exports = { buyToken, reward, sell }
