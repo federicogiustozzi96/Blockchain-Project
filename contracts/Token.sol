@@ -23,16 +23,6 @@ contract Token {
     //E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
     uint256 public totalSupply = 1000000;
 
-    // NFT Struct
-    struct NFT {
-        uint256 id;
-        address owner;
-        uint256 price; // If the price is 0, the NFT is not for sale
-    }
-
-    mapping(uint256 => NFT) public nfts; // Mapping to store NFTs
-    uint256 public nextTokenId = 1;      // Counter for NFT IDs
-
     // An address type variable is used to store ethereum accounts.
     //rappresenta l'indirizzo del proprietario del contratto, ovvero l'indirizzo che ha deployato il contratto. Questa variabile è importante per diverse ragioni:
     address public owner;
@@ -50,11 +40,6 @@ contract Token {
     // what happens within your contract.
     //utilizzato per registrare quando un utente acquista token tramite la funzione buyTokens.
     event Buy(address indexed buyer, uint256 amount); 
-
-    event NFTMinted(uint256 indexed tokenId, address indexed owner);
-    event NFTTransferred(uint256 indexed tokenId, address indexed from, address indexed to);
-    event NFTListedForSale(uint256 indexed tokenId, uint256 price);
-    event NFTSold(uint256 indexed tokenId, address indexed buyer, uint256 price);
 
     uint256 public rate = 1000000000000; // Example rate: 1 ETH = 100 tokens
                           
@@ -217,26 +202,60 @@ contract Token {
         payable(owner).transfer(address(this).balance);
     }
 
-    // NFT Functions
-    function mintNFT(uint256 price) external {
+    // Per ricevere Ether senza chiamare una specifica funzione
+    receive() external payable {
+        // codice opzionale da eseguire quando il contratto riceve Ether
+    }
+
+    // Funzione di fallback, chiamata quando non viene trovato il selettore di funzione
+    fallback() external payable {
+        // codice opzionale
+    }
+
+    //---------------------------------------------------------------------------------------//
+    // gestione NFT
+    //---------------------------------------------------------------------------------------//
+
+
+    // Definizione dei campi degli NFT
+    struct NFT {
+        uint256 tokenId;
+        address owner;
+        uint256 price;
+        bytes32 imageHash; // Aggiunta dell'hash dell'immagine
+    }
+
+    uint256 public nextTokenId = 1;
+    mapping(uint256 => NFT) public nfts;
+
+    event NFTMinted(uint256 indexed tokenId, address indexed owner);
+    event NFTTransferred(uint256 indexed tokenId, address indexed from, address indexed to);
+    event NFTListedForSale(uint256 indexed tokenId, uint256 price);
+    event NFTSold(uint256 indexed tokenId, address indexed buyer, uint256 price);
+
+    // Funzione per generare nuovi NFT tramite l'hash dell'immagine e il prezzo
+    function mintNFT(uint256 price, bytes32 imageHash) external {
         uint256 tokenId = nextTokenId;
-        nfts[tokenId] = NFT(tokenId, msg.sender, price);
+        nfts[tokenId] = NFT(tokenId, msg.sender, price, imageHash);
         nextTokenId += 1;
         emit NFTMinted(tokenId, msg.sender);
     }
 
+    // funzione per trasferire gli NFT ad altri utenti
     function transferNFT(uint256 tokenId, address to) external {
         require(nfts[tokenId].owner == msg.sender, "You are not the owner of this NFT");
         nfts[tokenId].owner = to;
         emit NFTTransferred(tokenId, msg.sender, to);
     }
 
+    // funzione per mostrare il prezzo di un dato NFT che possiedi
     function listNFTForSale(uint256 tokenId, uint256 price) external {
         require(nfts[tokenId].owner == msg.sender, "You are not the owner of this NFT");
         nfts[tokenId].price = price;
         emit NFTListedForSale(tokenId, price);
     }
 
+    // Funzione per acquistare NFT
     function buyNFT(uint256 tokenId) external {
         NFT storage nft = nfts[tokenId];
         require(nft.price > 0, "This NFT is not for sale");
@@ -253,14 +272,8 @@ contract Token {
         emit NFTSold(tokenId, msg.sender, nft.price);
     }
 
-    // Per ricevere Ether senza chiamare una specifica funzione
-    receive() external payable {
-        // codice opzionale da eseguire quando il contratto riceve Ether
-    }
-
-    // Funzione di fallback, chiamata quando non viene trovato il selettore di funzione
-    fallback() external payable {
-        // codice opzionale
+    function getImageHash(uint256 tokenId) external view returns (bytes32) {
+        return nfts[tokenId].imageHash;
     }
 
 }
