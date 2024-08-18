@@ -1,18 +1,18 @@
-const { create } = require('ipfs-http-client');
-const fs = require('fs');
-const path = require('path');
+import { create } from 'ipfs-http-client';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function main() {
-    // Configura il client IPFS
-    const ipfs = create({ 
-        url: 'https://ipfs.infura.io:5001'
-    });
+    // Connetti al nodo IPFS locale
+    const ipfs = create({ url: 'http://localhost:5001' });
 
-    // Leggi il file immagine (sostituisci 'path/to/image.png' con il percorso del tuo file)
     const filePath = path.join(__dirname, 'nft1.png');
     const file = fs.readFileSync(filePath);
     
-    // Carica il file su IPFS
     const result = await ipfs.add(file);
 
     console.log('File caricato su IPFS con CID:', result.path);
