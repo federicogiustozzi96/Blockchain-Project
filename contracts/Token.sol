@@ -233,10 +233,10 @@ contract Token {
     event NFTListedForSale(uint256 indexed tokenId, uint256 price);
     event NFTSold(uint256 indexed tokenId, address indexed buyer, uint256 price);
 
-    // Funzione per generare nuovi NFT tramite l'hash dell'immagine e il prezzo
-    function mintNFT(uint256 price, bytes32 imageHash) external {
+    // Funzione per generare nuovi NFT tramite la URI dell'immagine e il prezzo
+    function mintNFT(uint256 price, string calldata imageURI) external {
         uint256 tokenId = nextTokenId;
-        nfts[tokenId] = NFT(tokenId, msg.sender, price, imageHash);
+        nfts[tokenId] = NFT(tokenId, msg.sender, price, imageURI);
         nextTokenId += 1;
         emit NFTMinted(tokenId, msg.sender);
     }
@@ -272,8 +272,9 @@ contract Token {
         emit NFTSold(tokenId, msg.sender, nft.price);
     }
 
-    function getImageHash(uint256 tokenId) external view returns (bytes32) {
-        return nfts[tokenId].imageHash;
+    // Funzione per ottenere la URI dell'immagine
+    function getImageURI(uint256 tokenId) external view returns (string memory) {
+        return nfts[tokenId].imageURI;
     }
 
 }

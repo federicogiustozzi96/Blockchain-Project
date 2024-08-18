@@ -21,7 +21,9 @@ const contractABI = [
     "function buyTokens() public payable",
     "function reward(uint256 amountToReward) external",
     "function sellToken(uint256 amountToSell) external",
-    "function balanceOf(address account)"
+    "function balanceOf(address account)",
+    "function mintNFT(uint256 price, string calldata imageURI)",
+    "buyNFT(uint256 tokenId)"
 ];
 
 // Creare un'istanza del contratto
@@ -74,24 +76,6 @@ async function sell(amountToSell) {
     }
 }
 
-/* Definire la funzione per richiamare la funzione reward
-async function reward(amountToReward) {
-    try {
-        // Eseguire la transazione chiamando la funzione reward
-        const tx = await contract.reward(amountToReward);
-        console.log('Reward transaction sent:', tx.hash);
-
-        // Attendere la conferma della transazione
-        const receipt = await tx.wait();
-        console.log('Reward transaction mined:', receipt.hash);
-
-        // Aggiorna il bilancio dopo il reward
-        await updateBalance();
-    } catch (error) {
-        console.error('Error executing reward:', error);
-    }
-}*/
-
 async function reward(amountToReward) {
     try {
         // Ottieni il nonce corrente
@@ -112,6 +96,31 @@ async function reward(amountToReward) {
     }
 }
 
+
+// Costruisci la URI dell'immagine
+const imageCID = 'QmQvPkUSTgsFDzSxe72eBG1efq92kABK82VLsbRBTmYNix';
+const imageURI = `https://ipfs.io/ipfs/${imageCID}`; // URI dell'immagine su IPFS
+const priceInTokens = ethers.parseUnits('10', 18); // Ad esempio 10 DNT
+
+async function mint_NFT() {
+    try {
+        // Controlla se il contratto ha l'autorizzazione per trasferire i token
+        const allowance = await tokenContract.allowance(wallet.address, nftContractAddress);
+        if (allowance.lt(priceInTokens)) {
+            console.log('Insufficient allowance. Approve tokens first.');
+            return;
+        }
+
+        // Mint NFT
+        const tx = await nftContract.mintNFT(priceInTokens, imageURI);
+        console.log('Transaction sent:', tx.hash);
+
+        const receipt = await tx.wait();
+        console.log('Transaction confirmed in block:', receipt.blockNumber);
+    } catch (error) {
+        console.error('Error minting NFT:', error);
+    }
+}
 
 // Esporta la funzione
 module.exports = { buyToken, reward, sell }

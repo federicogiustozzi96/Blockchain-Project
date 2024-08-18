@@ -1,7 +1,6 @@
 {
   "name": "blockchain-project",
   "version": "1.0.0",
-  "type":"module",
   "main": "app.js",
   "directories": {
     "doc": "docs"
