@@ -22,8 +22,8 @@ const contractABI = [
     "function reward(uint256 amountToReward) external",
     "function sellToken(uint256 amountToSell) external",
     "function balanceOf(address account)",
-    "function mintNFT(uint256 price, string calldata imageURI)",
-    "buyNFT(uint256 tokenId)"
+    //"function mintNFT(uint256 price, string calldata imageURI)"
+    //"buyNFT(uint256 tokenId)"
 ];
 
 // Creare un'istanza del contratto
@@ -42,8 +42,11 @@ async function buyToken(amount) {
     console.log('Amount: ', valueToSend);
     
     try {
+        // Ottieni il nonce corrente
+        const nonce = await provider.getTransactionCount(signer.getAddress(), 'latest');
+
         // Eseguire la transazione chiamando la funzione buyTokens
-        const tx = await contract.buyTokens({ value:valueToSend });
+        const tx = await contract.buyTokens({ value:valueToSend, nonce: nonce });
 
         console.log('Transaction sent:', tx.hash);
 
@@ -61,8 +64,11 @@ async function buyToken(amount) {
 // Definire la funzione per vendere i token
 async function sell(amountToSell) {
     try {
+        // Ottieni il nonce corrente
+        const nonce = await provider.getTransactionCount(signer.getAddress(), 'latest');
+
         // Eseguire la transazione chiamando la funzione sellToken
-        const tx = await contract.sellToken(amountToSell);
+        const tx = await contract.sellToken(amountToSell, { nonce: nonce });
         console.log('Sell transaction sent:', tx.hash);
 
         // Attendere la conferma della transazione
@@ -96,7 +102,7 @@ async function reward(amountToReward) {
     }
 }
 
-
+/*
 // Costruisci la URI dell'immagine
 const imageCID = 'QmQvPkUSTgsFDzSxe72eBG1efq92kABK82VLsbRBTmYNix';
 const imageURI = `https://ipfs.io/ipfs/${imageCID}`; // URI dell'immagine su IPFS
@@ -120,7 +126,7 @@ async function mint_NFT() {
     } catch (error) {
         console.error('Error minting NFT:', error);
     }
-}
+}*/
 
 // Esporta la funzione
 module.exports = { buyToken, reward, sell }

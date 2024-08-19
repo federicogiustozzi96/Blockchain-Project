@@ -7,7 +7,7 @@ var bodyParser = require('body-parser')
 const app = express();
 const dotenv = require("dotenv");
 
-const { buyToken, sell } = require('./scripts/Backend.js')
+const { buyToken, sell, reward } = require('./scripts/Backend.js')
 
 dotenv.config({path: "./.env"});
 
@@ -66,7 +66,7 @@ app.post("/json", function (req, res) {
 
   app.post("/result", function (req, res) {
     console.log(req.body) // populated!
-   
+    reward(req.body.score.toString())
   });
 
 // start webserver

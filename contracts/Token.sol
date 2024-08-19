@@ -216,13 +216,13 @@ contract Token {
     // gestione NFT
     //---------------------------------------------------------------------------------------//
 
-
+    /*
     // Definizione dei campi degli NFT
     struct NFT {
         uint256 tokenId;
         address owner;
         uint256 price;
-        bytes32 imageHash; // Aggiunta dell'hash dell'immagine
+        string imageURI; // Aggiunta dell'hash dell'immagine
     }
 
     uint256 public nextTokenId = 1;
@@ -276,5 +276,5 @@ contract Token {
     function getImageURI(uint256 tokenId) external view returns (string memory) {
         return nfts[tokenId].imageURI;
     }
-
+    */
 }
