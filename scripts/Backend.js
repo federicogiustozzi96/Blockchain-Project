@@ -25,7 +25,7 @@ const contractABI = [
     "function balanceOf(address account) view returns (uint256)",
     "function mintNFT(uint256 price, string calldata imageURI) external",
     "function getImageURI(uint256 tokenId) view returns (string)",
-    "listNFTForSale(uint256 tokenId, uint256 price) external"
+    "function listNFTForSale(uint256 tokenId, uint256 price) external"
     //"buyNFT(uint256 tokenId)"
 ];
 
