@@ -7,12 +7,13 @@ const provider = ethers.getDefaultProvider('http://127.0.0.1:8545');
 // Chiave privata dell'account che eseguirà la transazione
 // Nota: Hardhat solitamente fornisce account preconfigurati con chiavi private, puoi prenderne una da lì
 const privateKey = process.env.PRIVATE_KEY_1;
+//const privateKey = process.env.PRIVATE_KEY;
 
 // Creare un'istanza del wallet
 const wallet = new ethers.Wallet(privateKey, provider);
 
 // Creare un'istanza dell'utente che ha richiamato il contratto
-const signer = new ethers.Wallet(process.env.PRIVATE_KEY_1, provider);
+const signer = new ethers.Wallet(privateKey, provider);
 
 // Indirizzo del contratto e ABI
 const contractAddress = process.env.CONTRACT_ADDRESS;
@@ -21,8 +22,10 @@ const contractABI = [
     "function buyTokens() public payable",
     "function reward(uint256 amountToReward) external",
     "function sellToken(uint256 amountToSell) external",
-    "function balanceOf(address account)",
-    //"function mintNFT(uint256 price, string calldata imageURI)"
+    "function balanceOf(address account) view returns (uint256)",
+    "function mintNFT(uint256 price, string calldata imageURI) external",
+    "function getImageURI(uint256 tokenId) view returns (string)",
+    "listNFTForSale(uint256 tokenId, uint256 price) external"
     //"buyNFT(uint256 tokenId)"
 ];
 
@@ -102,7 +105,7 @@ async function reward(amountToReward) {
     }
 }
 
-/*
+
 // Costruisci la URI dell'immagine
 const imageCID = 'QmQvPkUSTgsFDzSxe72eBG1efq92kABK82VLsbRBTmYNix';
 const imageURI = `https://ipfs.io/ipfs/${imageCID}`; // URI dell'immagine su IPFS
@@ -110,15 +113,15 @@ const priceInTokens = ethers.parseUnits('10', 18); // Ad esempio 10 DNT
 
 async function mint_NFT() {
     try {
-        // Controlla se il contratto ha l'autorizzazione per trasferire i token
-        const allowance = await tokenContract.allowance(wallet.address, nftContractAddress);
+        /* Controlla se il contratto ha l'autorizzazione per trasferire i token
+        const allowance = await contract.allowance(wallet.address, contractAddress);
         if (allowance.lt(priceInTokens)) {
             console.log('Insufficient allowance. Approve tokens first.');
             return;
-        }
+        }*/
 
         // Mint NFT
-        const tx = await nftContract.mintNFT(priceInTokens, imageURI);
+        const tx = await contract.mintNFT(priceInTokens, imageURI);
         console.log('Transaction sent:', tx.hash);
 
         const receipt = await tx.wait();
@@ -126,7 +129,20 @@ async function mint_NFT() {
     } catch (error) {
         console.error('Error minting NFT:', error);
     }
-}*/
+}
+
+async function get_uri() {
+    try {
+        const uri = await contract.getImageURI(1);
+        console.log('URI: ', uri);  // Dovrebbe stampare direttamente la URI
+    } catch (error) {
+        console.error('Errore:', error);
+    }
+}
+
+
+//mint_NFT();
+get_uri();
 
 // Esporta la funzione
 module.exports = { buyToken, reward, sell }
