@@ -1,5 +1,5 @@
-//index.js code
 const forwarderOrigin = 'http://localhost:5000';
+const serverUrl = 'http://localhost:5000/address'; 
 
 const initialize = () => {
     const connectButton = document.getElementById('connectWallet');
@@ -7,9 +7,8 @@ const initialize = () => {
 
     const onboardMetaMaskClient = async () => {
         if (!isMetamaskInstalled()) {
-            // prompt the user to install it
             console.log("MetaMask is not installed :(");
-            connectButton.value = "Click here to install metamask";
+            connectButton.value = "Click here to install MetaMask";
             connectButton.onclick = installMetaMask;
         } else {
             console.log("MetaMask is installed Hurray!!!!!");
@@ -20,12 +19,32 @@ const initialize = () => {
     const connectMetaMask = async () => {
         connectButton.disabled = true;
         try {
+
+            const username = prompt("Please enter your username:");
             const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+            
+            if (Array.isArray(accounts) && accounts.length > 0) {
+                const account = accounts[0]; 
+                console.log("Wallet address:", account); 
+                alert("Wallet address: " + account); 
+                const response = await fetch(serverUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({address: account, username: username }),
+                });
+            } else {
+                console.log("No accounts found");
+                alert("No accounts found");
+            }
+
             connectButton.value = "Connected";
-            console.log("accounts: ", accounts);
-            connectButton.disabled = false;
         } catch (err) {
-            console.error("error occured while connecting to MetaMask: ", err)
+            console.error("Error occurred while connecting to MetaMask: ", err);
+            alert("Error occurred: " + err.message); 
+        } finally {
+            connectButton.disabled = false;
         }
     }
 

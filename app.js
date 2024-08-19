@@ -69,6 +69,11 @@ app.post("/json", function (req, res) {
     reward(req.body.score.toString())
   });
 
+  app.post("/address", function (req, res) {
+    console.log(req.body) // populated!
+  });
+
+
 // start webserver
 app.listen(5000, () => {
     console.log("Server started on Port 5000")
