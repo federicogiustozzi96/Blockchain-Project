@@ -33,7 +33,7 @@
             <section></section>
             <section>≅ 35000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                <div><a class="buy-btn" data-value="35000" data-section="1">Buy</a></div>
                 <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -42,7 +42,8 @@
             <section></section>
             <section>≅ 24000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                 <div><a class="buy-btn" data-value="24000" data-section="2">Buy</a></div>
+
                 <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -51,7 +52,7 @@
             <section></section>
             <section>≅ 42000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                 <div><a class="buy-btn" data-value="42000" data-section="3">Buy</a></div>
                 <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -60,7 +61,8 @@
             <section></section>
             <section>≅ 12000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                <div><a class="buy-btn" data-value="12000" data-section="4">Buy</a></div>
+                
                 <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -69,7 +71,9 @@
             <section><div id="unicorn"></div></section>
             <section>≅ 50000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                 <div><a class="buy-btn" data-value="50000" data-section="5">Buy</a></div>
+               
+
                 <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -78,7 +82,8 @@
             <section></section>
             <section>≅ 14000 Donuts</section>
             <section>
-                <div><a href="#">Buy</a></div>
+                <div><a class="buy-btn" data-value="14000" data-section="6">Buy</a></div>
+            
                <!-- <div><a href="#">Sell</a></div> -->
             </section>
             <section></section>
@@ -88,6 +93,44 @@
     <footer>
 
     </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const buyButtons = document.querySelectorAll('.buy-btn');
+
+
+    buyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+
+            const value = this.getAttribute('data-value');
+            const section = this.getAttribute('data-section');
+
+
+            const data = {
+                value: value,
+                section: section
+            };
+
+
+            fetch('/nftAction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({value: value, section: section})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+</script>
+
     <script src="js/nft.js"></script>
 </body>
 </html>
