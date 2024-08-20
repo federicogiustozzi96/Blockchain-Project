@@ -248,7 +248,7 @@ contract Token {
         emit NFTTransferred(tokenId, msg.sender, to);
     }
 
-    // funzione per mostrare il prezzo di un dato NFT che possiedi
+    // funzione per mettere in vendita un NFT che possiedi
     function listNFTForSale(uint256 tokenId, uint256 price) external {
         require(nfts[tokenId].owner == msg.sender, "You are not the owner of this NFT");
         nfts[tokenId].price = price;

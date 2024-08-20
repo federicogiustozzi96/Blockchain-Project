@@ -25,8 +25,8 @@ const contractABI = [
     "function balanceOf(address account) view returns (uint256)",
     "function mintNFT(uint256 price, string calldata imageURI) external",
     "function getImageURI(uint256 tokenId) view returns (string)",
-    "function listNFTForSale(uint256 tokenId, uint256 price) external"
-    //"buyNFT(uint256 tokenId)"
+    "function listNFTForSale(uint256 tokenId, uint256 price) external",
+    "function buyNFT(uint256 tokenId) external"
 ];
 
 // Creare un'istanza del contratto
@@ -140,9 +140,36 @@ async function get_uri() {
     }
 }
 
+async function sale_nft() {
+    try {
+        const tx = await contract.listNFTForSale(1, 10)
+        console.log('Transaction sent:', tx.hash);
+
+        const receipt = await tx.wait();
+        console.log('Transaction mined:', receipt.hash);
+    } catch (error) {
+        console.error('Errore:', error);
+    }
+}
+
+async function buy_nft(id) {
+    try {
+        const tx = await contract.buyNFT(id)
+        console.log('Transaction sent:', tx.hash);
+
+        const receipt = await tx.wait();
+        console.log('Transaction mined:', receipt.hash);
+        console.log('NFT bought successfully!');
+    } catch (error) {
+        console.error('Errore:', error);
+    }
+}
 
 //mint_NFT();
-get_uri();
+//get_uri();
+//sale_nft();
+//buy_nft(1);
+//updateBalance();
 
 // Esporta la funzione
-module.exports = { buyToken, reward, sell }
+module.exports = { buyToken, reward, sell, buy_nft }

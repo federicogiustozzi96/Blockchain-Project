@@ -7,7 +7,7 @@ var bodyParser = require('body-parser')
 const app = express();
 const dotenv = require("dotenv");
 
-const { buyToken, sell, reward } = require('./scripts/Backend.js')
+const { buyToken, sell, reward, buy_nft } = require('./scripts/Backend.js')
 
 dotenv.config({path: "./.env"});
 
@@ -75,6 +75,7 @@ app.post("/json", function (req, res) {
 
   app.post("/nftAction", function (req, res) {
     console.log(req.body) // populated!
+    buy_nft(req.body.section.toString())
   });
 
 
