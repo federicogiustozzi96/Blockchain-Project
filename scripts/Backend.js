@@ -131,9 +131,9 @@ async function mint_NFT() {
     }
 }
 
-async function get_uri() {
+async function get_uri(id) {
     try {
-        const uri = await contract.getImageURI(1);
+        const uri = await contract.getImageURI(id);
         console.log('URI: ', uri);  // Dovrebbe stampare direttamente la URI
     } catch (error) {
         console.error('Errore:', error);
@@ -166,7 +166,7 @@ async function buy_nft(id) {
 }
 
 //mint_NFT();
-//get_uri();
+get_uri(1);
 //sale_nft();
 //buy_nft(1);
 //updateBalance();
