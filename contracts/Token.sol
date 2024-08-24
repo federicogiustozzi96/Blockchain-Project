@@ -3,24 +3,23 @@
 // Solidity files have to start with this pragma.
 // It will be used by the Solidity compiler to validate its version.
 
-//Questa direttiva indica al compilatore di utilizzare la versione 0.8.24 di Solidity o successiva, ma non una versione maggiore di 0.9.0.
-//This directive tells the compiler to use Solidity version 0.8.24 or later, but not a version greater than 0.9.0.
+// Questa direttiva indica al compilatore di utilizzare la versione 0.8.24 di Solidity o successiva, ma non una versione maggiore di 0.9.0.
 pragma solidity ^0.8.24;
 import "hardhat/console.sol";
 
 // This is the main building block for smart contracts.
 contract Token {
     // Some string type variables to identify the token.
-    //Nome e simbolo Token
+    // Nome e simbolo Token
     string public name = "Donut";
     string public symbol = "DNT";
 
     // The fixed amount of tokens, stored in an unsigned integer type variable.
-    //rappresenta la quantità totale di token che esistono nel sistema. 
-    //È una parte fondamentale di qualsiasi token ERC20-like, perché definisce quanti token sono stati creati e devono essere gestiti dal contratto. 
-    //totalSupply stabilisce la quantità totale di token che esistono fin dall'inizio e non può essere cambiata. 
-    //Questo aiuta a prevenire l'inflazione del token. Inizializzato a 1.000.000 token e assegnato interamente all'indirizzo che deploya il contratto (di solito il creatore). 
-    //E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
+    // rappresenta la quantità totale di token che esistono nel sistema. 
+    // È una parte fondamentale di qualsiasi token ERC20-like, perché definisce quanti token sono stati creati e devono essere gestiti dal contratto. 
+    // totalSupply stabilisce la quantità totale di token che esistono fin dall'inizio e non può essere cambiata. 
+    // Questo aiuta a prevenire l'inflazione del token. Inizializzato a 1.000.000 token e assegnato interamente all'indirizzo che deploya il contratto (di solito il creatore). 
+    // E' una variabile pubblica, chiunque può visualizzarla. Questo aumenta la trasparenza, permettendo a chiunque di vedere quanti token esistono in totale.
     uint256 public totalSupply = 1000000;
 
     // An address type variable is used to store ethereum accounts.
@@ -217,21 +216,47 @@ contract Token {
     //---------------------------------------------------------------------------------------//
 
     
-    // Definizione dei campi degli NFT
+    // Definizione della struttura dati per un NFT
     struct NFT {
+        // ID univoco dell'NFT, rappresentato come un intero senza segno a 256 bit
         uint256 tokenId;
+        
+        // Indirizzo del proprietario dell'NFT, rappresentato come un indirizzo Ethereum
         address owner;
+        
+        // Prezzo dell'NFT, espresso come un intero senza segno a 256 bit
         uint256 price;
-        string imageURI; // Aggiunta dell'hash dell'immagine
+        
+        // URI dell'immagine associata all'NFT, memorizzato come stringa
+        string imageURI; 
     }
 
+
+    // Variabile pubblica che tiene traccia dell'ID del prossimo NFT da creare
+    // Inizialmente impostata a 1
     uint256 public nextTokenId = 1;
+
+    // Mappatura pubblica che associa un ID di un NFT alla struttura NFT corrispondente
+    // La chiave è un uint256 che rappresenta l'ID dell'NFT, e il valore è la struttura NFT
     mapping(uint256 => NFT) public nfts;
 
+
+    // Evento che viene emesso quando un nuovo NFT viene creato (minted)
+    // Contiene l'ID dell'NFT e l'indirizzo del proprietario
     event NFTMinted(uint256 indexed tokenId, address indexed owner);
+
+    // Evento che viene emesso quando un NFT viene trasferito da un utente a un altro
+    // Contiene l'ID dell'NFT, l'indirizzo del mittente (proprietario precedente) e del destinatario (nuovo proprietario)
     event NFTTransferred(uint256 indexed tokenId, address indexed from, address indexed to);
+
+    // Evento che viene emesso quando un NFT viene messo in vendita
+    // Contiene l'ID dell'NFT e il prezzo a cui è stato messo in vendita
     event NFTListedForSale(uint256 indexed tokenId, uint256 price);
+
+    // Evento che viene emesso quando un NFT viene acquistato
+    // Contiene l'ID dell'NFT, l'indirizzo dell'acquirente e il prezzo di vendita
     event NFTSold(uint256 indexed tokenId, address indexed buyer, uint256 price);
+
 
     // Funzione per generare nuovi NFT tramite la URI dell'immagine e il prezzo
     function mintNFT(uint256 price, string calldata imageURI) external {

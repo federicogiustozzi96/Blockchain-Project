@@ -85,6 +85,7 @@ async function sell(amountToSell) {
     }
 }
 
+// Definire la funzione per ricompensare i punteggi dei giochi e delle quest con i token
 async function reward(amountToReward) {
     try {
         // Ottieni il nonce corrente
@@ -111,6 +112,7 @@ const imageCID = 'QmQvPkUSTgsFDzSxe72eBG1efq92kABK82VLsbRBTmYNix';
 const imageURI = `https://ipfs.io/ipfs/${imageCID}`; // URI dell'immagine su IPFS
 const priceInTokens = ethers.parseUnits('10', 18); // Ad esempio 10 DNT
 
+// Definire la funzione per generare gli NFT
 async function mint_NFT() {
     try {
         /* Controlla se il contratto ha l'autorizzazione per trasferire i token
@@ -120,10 +122,11 @@ async function mint_NFT() {
             return;
         }*/
 
-        // Mint NFT
+        // Richiama la funzione dello smart contract per generare un NFT
         const tx = await contract.mintNFT(priceInTokens, imageURI);
         console.log('Transaction sent:', tx.hash);
 
+        // Attendere la conferma della transazione
         const receipt = await tx.wait();
         console.log('Transaction confirmed in block:', receipt.blockNumber);
     } catch (error) {
@@ -131,8 +134,11 @@ async function mint_NFT() {
     }
 }
 
+// Funzione per stampare l'URI di un NFT tramite il tokenID
 async function get_uri(id) {
     try {
+
+        // Richiama la funzione view dello smart contract per ottenere l'URI dell'NFT
         const uri = await contract.getImageURI(id);
         console.log('URI: ', uri);  // Dovrebbe stampare direttamente la URI
     } catch (error) {
@@ -140,11 +146,15 @@ async function get_uri(id) {
     }
 }
 
+// Definire la funzione per mettere in vendita un NFT
 async function sale_nft() {
     try {
+
+        // Richiama la funzione dello smart contract per mettere in vendita un NFT
         const tx = await contract.listNFTForSale(1, 10)
         console.log('Transaction sent:', tx.hash);
 
+        // Attendere la conferma della transazione
         const receipt = await tx.wait();
         console.log('Transaction mined:', receipt.hash);
     } catch (error) {
@@ -152,11 +162,15 @@ async function sale_nft() {
     }
 }
 
+// Definire la funzione per comprare NFT
 async function buy_nft(id) {
     try {
+
+        // Richiama la funzione dello smart contract per acquistare NFT
         const tx = await contract.buyNFT(id)
         console.log('Transaction sent:', tx.hash);
 
+        // Attendere la conferma della transazione
         const receipt = await tx.wait();
         console.log('Transaction mined:', receipt.hash);
         console.log('NFT bought successfully!');
@@ -171,5 +185,5 @@ get_uri(1);
 //buy_nft(1);
 //updateBalance();
 
-// Esporta la funzione
+// Esporta le funzioni
 module.exports = { buyToken, reward, sell, buy_nft }
