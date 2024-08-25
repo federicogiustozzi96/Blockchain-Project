@@ -11,7 +11,6 @@ const { buyToken, sell, reward, buy_nft } = require('./scripts/Backend.js')
 
 dotenv.config({path: "./.env"});
 
-
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -37,6 +36,7 @@ app.use(express.static(publicDirectory));
 app.use(bodyParser.urlencoded({
     extended: true
   }));
+
 app.use(express.json());
 
 
@@ -90,6 +90,75 @@ app.post("/json", function (req, res) {
     buy_nft(req.body.section.toString())
   });
 
+    //MODIFICHE ANDREA
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+// Endpoint per la verifica dell'utente
+app.get('/verifyWallet', (req, res) => {
+  const address = req.query.address;
+
+  // Verifica se l'indirizzo del wallet è stato passato come parametro
+  if (!address) {
+    return res.status(400).json({ error: 'Wallet address is required' });
+  }
+
+  // Query per controllare se l'indirizzo del wallet è già registrato
+  db.query('SELECT username FROM Users WHERE wallet_address = ?', [address], (error, results) => {
+    if (error) {
+      console.error('Database query error:', error);
+      return res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
+
+    // Verifica se l'indirizzo del wallet è presente nel database
+    if (results.length > 0) {
+      // Wallet trovato: restituisce il nickname associato
+      res.json({ username: results[0].username });
+    } else {
+      // Wallet non trovato: restituisce null
+      res.json({ username: null });
+    }
+  });
+});
+
+// Endpoint per la registrazione dell'utente
+app.post('/registerUser', (req, res) => {
+  const { address, username } = req.body;
+
+  console.log("Received request:", req.body);
+
+  // Verifica se l'username esiste già
+  db.query('SELECT username FROM Users WHERE username = ?', [username], (error, results) => {
+    if (error) {
+      console.error('Database query error:', error);
+      return res.status(500).json({ error: 'An error occurred while processing your request' });
+    }
+    if (results.length > 0) {
+      return res.status(400).json({ error: 'Username already exists' });
+    }
+
+    // Verifica se l'indirizzo del wallet esiste già
+    db.query('SELECT wallet_address FROM Users WHERE wallet_address = ?', [address], (error, results) => {
+      if (error) {
+        console.error('Database query error:', error);
+        return res.status(500).json({ error: 'An error occurred while processing your request' });
+      }
+      if (results.length > 0) {
+        // Se l'indirizzo esiste già, restituisci un messaggio di errore
+        return res.status(400).json({ error: 'Wallet address already exists' });
+      }
+
+      // Inserisci il nuovo utente
+      db.query('INSERT INTO Users (wallet_address, username) VALUES (?, ?)', [address, username], (error, results) => {
+        if (error) {
+          console.error('Database query error:', error);
+          return res.status(500).json({ error: 'An error occurred while processing your request' });
+        }
+        res.status(201).json({ message: 'User registered successfully' });
+      });
+    });
+  });
+});
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 // start webserver
 app.listen(5000, () => {
