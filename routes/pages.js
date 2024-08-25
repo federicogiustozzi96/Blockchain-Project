@@ -3,12 +3,15 @@ const express = require("express");
 const router = express.Router();
 const scoreController = require("../scores")
 const rewardsController = require("../rewards")
+const usernameController = require("../username")
 
 // manage get request at /
 router.get("/", (req,res)=> {
     res.render("index");
 });
 
+router.get('/verifyWallet',usernameController.verify)
+router.post('/registerUser',usernameController.register)
 router.post("/score",scoreController.register );
 router.get("/score",scoreController.reveal );
 router.post("/rewards",rewardsController.action );

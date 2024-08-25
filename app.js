@@ -43,7 +43,6 @@ app.use(express.json());
 // use pattern view engine
 app.set("view engine", "hbs");
 
-
 // use the routes descripted in pages.js
 app.use("/", require("./routes/pages.js"))
 
@@ -93,7 +92,10 @@ app.post("/json", function (req, res) {
     //MODIFICHE ANDREA
   ///////////////////////////////////////////////////////////////////////////////////////////////////////
   
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Endpoint per la verifica dell'utente
+/*
 app.get('/verifyWallet', (req, res) => {
   const address = req.query.address;
 
@@ -158,8 +160,7 @@ app.post('/registerUser', (req, res) => {
     });
   });
 });
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
+*/
 // start webserver
 app.listen(5000, () => {
     console.log("Server started on Port 5000")
