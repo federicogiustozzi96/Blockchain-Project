@@ -3,6 +3,9 @@ const serverUrl = 'http://localhost:5000/address';
 const registerUserUrl = 'http://localhost:5000/registerUser';
 const checkWalletUrl ='http://localhost:5000/verifyWallet';
 
+//variabile che traccia il collegamento del wallet (Metamask)
+let isWalletConnected = false;
+
 const initialize = () => {
     const connectButton = document.getElementById('connectWallet');
     const { ethereum } = window;
@@ -51,7 +54,6 @@ const initialize = () => {
         }
     }*/
 
-       //ANDREA
        const connectMetaMask = async () => {
         connectButton.disabled = true;
     
@@ -82,6 +84,7 @@ const initialize = () => {
     
             if (data.username) {
               alert(`Wallet ${account} connected as username ${data.username}`);
+              isWalletConnected = true;  // Segnala che il wallet è connesso
             } else {
               const username = prompt("This is the first time this wallet is used. Please enter a username to associate with this wallet:");
     
@@ -112,6 +115,7 @@ const initialize = () => {
     
                 if (registrationResponse.ok) {
                   alert(`Wallet ${account} successfully associated with username ${username}`);
+                  isWalletConnected = true;  // Segnala che il wallet è connesso
                 } else {
                   alert(`Error: ${registrationData.error}`);
                 }
@@ -129,8 +133,8 @@ const initialize = () => {
           connectButton.disabled = false;
         }
       };
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-    const isMetamaskInstalled = () => {
+
+      const isMetamaskInstalled = () => {
         return ethereum && ethereum.isMetaMask;
     }
 
@@ -141,7 +145,24 @@ const initialize = () => {
         onboarding.startOnboarding();
     }
 
+    //Controlla se il wallet di Metamask è connesso
+    const checkWalletConnection = (event) => {
+      if (!isWalletConnected) {
+          event.preventDefault();  // Blocca la navigazione
+          alert("Please connect your wallet with MetaMask before proceeding.");
+      }
+  }
+        //abilita la navigazione ai minigiochi se e soltanto se il wallet è connesso
+        const setupGameLinks = () => {
+          console.log("entered setupGameLinks");
+          const gameLinks = document.querySelectorAll('.name a');
+          gameLinks.forEach(link => {
+              link.addEventListener('click', checkWalletConnection);
+          });
+      }
+
     onboardMetaMaskClient();
+    setupGameLinks();
 };
 
 window.addEventListener('DOMContentLoaded', initialize);

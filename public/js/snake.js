@@ -25,8 +25,10 @@ var punteggio=0;
 
 var gameOver = false;
 var score;
+//DA MODIFICARE
 var username=""
 username=prompt("Insert your username");
+///////////////////////////////////////////////
 window.onload = function() {
     board = document.getElementById("board");
 
