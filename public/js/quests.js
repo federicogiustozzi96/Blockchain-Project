@@ -61,6 +61,39 @@ const initialize = () => {
         }
     };
 
+    const checkWalletStatus = async () => {
+        try {
+            const accounts = await ethereum.request({ method: 'eth_accounts' });
+            if (Array.isArray(accounts) && accounts.length > 0) {
+                const account = accounts[0];
+                const response = await fetch(checkWalletUrl + '?address=' + encodeURIComponent(account));
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.username) {
+                        if (!isWalletConnected) {
+                            isWalletConnected = true;
+                            console.log(`Wallet ${account} is already connected as username ${data.username}`);
+                        }
+                    }
+                }
+            } else {
+                if (isWalletConnected) {
+                    isWalletConnected = false;
+                    alert("Wallet disconnected. Please reconnect your wallet.");
+                    location.reload();  // Ricarica la pagina
+                }
+            }
+        } catch (err) {
+            console.error("Error checking wallet status: ", err);
+            isWalletConnected = false;  // In caso di errore, considera il wallet come disconnesso
+        }
+    };
+
+    const startWalletStatusCheck = () => {
+        setInterval(checkWalletStatus, 3000); // Controlla lo stato del wallet ogni 3 secondi
+    };
+
     const isMetamaskInstalled = () => {
         return ethereum && ethereum.isMetaMask;
     };
@@ -87,6 +120,8 @@ const initialize = () => {
     };
 
     onboardMetaMaskClient();
+    checkWalletStatus();  // Controlla lo stato del wallet all'inizializzazione
+    startWalletStatusCheck();  // Inizia a controllare lo stato del wallet a intervalli regolari
     setupQuestLinks();
 };
 
