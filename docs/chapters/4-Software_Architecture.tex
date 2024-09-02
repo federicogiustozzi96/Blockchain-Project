@@ -3,6 +3,27 @@
 \begin{document}
 
 \section{Software Architecture}\label{sec:software_architecture}
-xxx
+
+\subsection{Deployment Diagram}
+
+The deployment diagram provides an overview of the distribution and interaction of the components within our decentralized application (dApp). 
+This visual representation is crucial for understanding how the different parts of the system connect and collaborate to deliver a functional and cohesive application.\\
+
+Our dApp is designed as a web application using JavaScript and Handlebars (hbs). Users interact with the dApp through this web interface, which is supported by client 
+libraries such as Web3.js or Ethers.js for blockchain interactions and MetaMask for transaction management.\\
+
+The blockchain management is facilitated by smart contracts deployed on the Ethereum network. These smart contracts handle the management of tokens (DNT), processing 
+of NFT transactions, and recording of game scores. Hardhat, a development environment for Ethereum, is utilized for deploying and testing these smart contracts.\\
+
+Hardhat streamlines the development process by providing local blockchain environments, debugging tools, and integration with the Ethereum network.\\
+
+MetaMask, a browser extension wallet, allows users to connect their Ethereum wallets to the dApp securely. It provides a user-friendly interface for managing private 
+keys and interacting with smart contracts on the Ethereum network.\\
+
+The backend includes a Node.js API server and a MySQL database, managed via phpMyAdmin, to store essential data such as wallet-username associations and game scores. 
+All components are hosted on cloud platforms, ensuring both scalability and availability.\\
+
+This diagram offers a clear depiction of the connections and dependencies among these elements, aiding in the understanding of the architecture and supporting 
+effective system management throughout the development and production phases.
 
 \end{document}
