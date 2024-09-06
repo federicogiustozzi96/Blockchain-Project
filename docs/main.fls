@@ -920,6 +920,21 @@ INPUT chapters/4-Software_Architecture.tex
 INPUT ./chapters/4-Software_Architecture.tex
 INPUT ./chapters/4-Software_Architecture.tex
 INPUT chapters/4-Software_Architecture.tex
+INPUT ./src/diagrams/Deployment Diagram.jpg
+INPUT ./src/diagrams/Deployment Diagram.jpg
+INPUT src/diagrams/Deployment Diagram.jpg
+INPUT ./src/diagrams/Deployment Diagram.jpg
+INPUT ./src/diagrams/Deployment Diagram.jpg
+INPUT ./src/diagrams/Use Case Diagram.jpg
+INPUT ./src/diagrams/Use Case Diagram.jpg
+INPUT src/diagrams/Use Case Diagram.jpg
+INPUT ./src/diagrams/Use Case Diagram.jpg
+INPUT ./src/diagrams/Use Case Diagram.jpg
+INPUT ./src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg
+INPUT ./src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg
+INPUT src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg
+INPUT ./src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg
+INPUT ./src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg
 INPUT ./chapters/5-Implementation.tex
 INPUT ./chapters/5-Implementation.tex
 INPUT ./chapters/5-Implementation.tex

@@ -5,7 +5,8 @@
 \contentsline {subsection}{\numberline {3.1}Why Using a Blockchain, and What Type Thereof to Use in Production}{5}{subsection.3.1}%
 \contentsline {section}{\numberline {4}Software Architecture}{7}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Deployment Diagram}{7}{subsection.4.1}%
-\contentsline {section}{\numberline {5}Implementation}{8}{section.5}%
-\contentsline {section}{\numberline {6}Known Issues and Limitations}{9}{section.6}%
-\contentsline {section}{\numberline {7}Conclusions and Future Remarks}{10}{section.7}%
-\contentsline {section}{References}{11}{section*.2}%
+\contentsline {subsection}{\numberline {4.2}Use Case Diagram}{8}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Implementation}{10}{section.5}%
+\contentsline {section}{\numberline {6}Known Issues and Limitations}{11}{section.6}%
+\contentsline {section}{\numberline {7}Conclusions and Future Remarks}{12}{section.7}%
+\contentsline {section}{References}{13}{section*.5}%
