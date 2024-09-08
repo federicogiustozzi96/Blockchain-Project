@@ -1,8 +1,649 @@
-\documentclass[main.tex]{subfiles}
+\documentclass[../main.tex]{subfiles}
 
 \begin{document}
 
 \section{Implementation}\label{sec:implementation}
-In the ever-changing digital landscape, we are witnessing a technology that has captured the attention of experts, media, and users worldwide: deepfakes...
+
+This chapter provides an overview of the implementation of the Donuts Games dApp, starting with the smart contract responsible for managing Donut Tokens (DNT), including functions for token creation, transfers, buying, selling, and reward distribution. It then describes the backend integration with the Ethereum blockchain using \texttt{ethers.js}, enabling interactions with the smart contract. Lastly, the chapter covers the testing strategy used to verify the correct operation of the smart contract.
+
+% --- SMART CONTRACT - TOKEN.SOL ---
+
+\subsection{Smart Contract - Token.sol}
+The core of the dApp is the Donut Token smart contract, which manages token creation, transfers, and NFT minting. Written in Solidity, the contract defines the platform’s token economy, with 1,000,000 DNT tokens initially assigned to the contract owner.
+
+\subsubsection{Token Creation and Initialization}
+The contract initializes the name, symbol, and total supply of the token, assigning the full supply to the deployer's address. 
+
+\begin{verbatim}
+constructor() {
+    balances[msg.sender] = totalSupply;
+    owner = msg.sender;
+}
+\end{verbatim}
+
+\subsubsection{Token Transfer}
+The \texttt{transfer} function allows users to send tokens to other Ethereum addresses, ensuring the sender has enough tokens before processing the transfer.
+
+\begin{verbatim}
+function transfer(address to, uint256 amount) external {
+    require(balances[msg.sender] >= amount, "Not enough tokens");
+    balances[msg.sender] -= amount;
+    balances[to] += amount;
+    emit Transfer(msg.sender, to, amount);
+}
+\end{verbatim}
+
+\subsubsection{Buying Tokens}
+Users can purchase DNT by sending Ether to the contract. The amount of tokens received depends on the exchange rate, and tokens are transferred from the owner's balance to the buyer.
+
+\begin{verbatim}
+function buyTokens() external payable {
+    uint256 amountToBuy = msg.value / rate;
+    require(amountToBuy > 0, "You need to send some Ether");
+    require(balances[owner] >= amountToBuy, "Not enough tokens available");
+    balances[owner] -= amountToBuy;
+    balances[msg.sender] += amountToBuy;
+    emit Transfer(owner, msg.sender, amountToBuy);
+    emit Buy(msg.sender, amountToBuy);
+}
+\end{verbatim}
+
+\subsubsection{Selling Tokens}
+The \texttt{sellToken} function enables users to sell DNT in exchange for Ether, ensuring the contract has sufficient Ether to complete the transaction.
+
+\begin{verbatim}
+function sellToken(uint256 amountToSell) external {
+    require(balances[msg.sender] >= amountToSell, "Not enough tokens");
+    uint256 etherAmount = amountToSell * rate;
+    require(address(this).balance >= etherAmount, "Not enough Ether in the contract");
+    balances[msg.sender] -= amountToSell;
+    balances[owner] += amountToSell;
+    payable(msg.sender).transfer(etherAmount);
+    emit Transfer(msg.sender, owner, amountToSell);
+}
+\end{verbatim}
+
+\subsubsection{Rewarding Users}
+The contract owner can reward users with tokens using the \texttt{reward} function, which transfers tokens from the owner’s balance.
+
+\begin{verbatim}
+function reward(uint256 amountToReward) external {
+    require(balances[owner] >= amountToReward, "Not enough tokens available");
+    balances[owner] -= amountToReward;
+    balances[msg.sender] += amountToReward;
+    emit Transfer(owner, msg.sender, amountToReward);
+}
+\end{verbatim}
+
+% --- TESTING THE SMART CONTRACT ---
+
+\subsection{Testing the Smart Contract}
+Testing ensures that the Donut Token contract works as expected, covering token transfers, purchases, and sales. Tests are written using \textbf{Hardhat} and \textbf{Chai} to verify the functionality.
+
+\subsubsection{Deployment Tests}
+Tests confirm that the contract is deployed correctly, assigning the total token supply to the owner.
+
+\begin{verbatim}
+it("Should set the right owner", async function () {
+    expect(await token.owner()).to.equal(owner.address);
+});
+
+it("Should assign the total supply of tokens to the owner", async function () {
+    const ownerBalance = await token.balanceOf(owner.address);
+    expect(ownerBalance).to.equal(await token.totalSupply());
+});
+\end{verbatim}
+
+\subsubsection{Transaction Tests}
+Tests verify token transfers between users and ensure that transactions fail if there are insufficient funds.
+
+\begin{verbatim}
+it("Should transfer tokens between accounts", async function () {
+    await token.transfer(addr1.address, 50);
+    const addr1Balance = await token.balanceOf(addr1.address);
+    expect(addr1Balance).to.equal(50);
+});
+
+it("Should fail if sender doesn’t have enough tokens", async function () {
+    await expect(token.connect(addr1).transfer(addr2.address, ethers.parseEther("101")))
+        .to.be.revertedWith("Not enough tokens");
+});
+\end{verbatim}
+
+\subsubsection{Buy Tokens Test}
+This test verifies that users can purchase tokens by sending Ether, receiving the correct number of tokens based on the rate.
+
+\begin{verbatim}
+it("Should allow users to buy tokens by sending ether", async function () {
+    const amountInEther = ethers.parseEther("1");
+    await addr1.sendTransaction({ to: token.target, value: amountInEther });
+    await token.connect(addr1).buyTokens({ value: amountInEther });
+    const addr1Balance = await token.balanceOf(addr1.address);
+    expect(addr1Balance).to.equal(amountInEther / (await token.rate()));
+});
+\end{verbatim}
+
+\subsubsection{Withdraw Ether Test}
+Tests ensure only the contract owner can withdraw Ether and that their balance increases accordingly.
+
+\begin{verbatim}
+it("Should allow the owner to withdraw Ether", async function () {
+    const amountInEther = ethers.parseEther("1");
+    await addr1.sendTransaction({ to: token.target, value: amountInEther });
+    await token.connect(owner).withdraw();
+    const finalOwnerBalance = await ethers.provider.getBalance(owner.address);
+    expect(finalOwnerBalance).to.be.above(initialOwnerBalance);
+});
+
+it("Should not allow non-owner to withdraw Ether", async function () {
+    await expect(token.connect(addr1).withdraw()).to.be.revertedWith("Only the owner can withdraw funds");
+});
+\end{verbatim}
+
+\subsubsection{Selling Tokens Test}
+Tests ensure that users can sell tokens for Ether and verify that transactions fail when users attempt to sell more than their balance.
+
+\begin{verbatim}
+it("Should allow a user to sell tokens and receive Ether", async function () {
+    await token.connect(owner).transfer(addr1.address, 1000);
+    const amountToSell = 10;
+    await token.connect(addr1).sellToken(amountToSell);
+    const addr1Balance = await token.balanceOf(addr1.address);
+    expect(addr1Balance).to.equal(1000 - amountToSell);
+});
+
+it("Should fail if user tries to sell more tokens than they have", async function () {
+    await expect(token.connect(addr1).sellToken(2000)).to.be.revertedWith("Not enough tokens to sell");
+});
+\end{verbatim}
+
+% --- DEPLOYING THE SMART CONTRACT ---
+
+\subsection{Deploying the Smart Contract}
+The deployment of the Donut Token contract is automated using a script written in \textbf{ethers.js}. The script retrieves the deployer's account, creates an instance of the contract, and deploys it to the Ethereum blockchain.
+
+\subsubsection{Deploy Script}
+The script defines an asynchronous \texttt{main} function to handle the contract deployment process.
+
+\begin{verbatim}
+async function main() {
+    const [deployer] = await ethers.getSigners();
+    const Token = await ethers.getContractFactory("Token");
+    const token = await Token.deploy();
+    console.log("Token deployed to:", token.target);
+}
+\end{verbatim}
+
+The script concludes by handling potential errors and ensuring the deployment completes successfully.
+
+\begin{verbatim}
+main()
+    .then(() => process.exit(0))
+    .catch(error => {
+        console.error(error);
+        process.exit(1);
+    });
+\end{verbatim}
+
+% --- BACKEND INTERACTIONS ---
+
+\subsection{Backend.js Module}
+The \texttt{backend.js} module facilitates interactions between the dApp's backend and the Ethereum smart contract. Using \textbf{ethers.js}, it manages token transactions, rewards, and NFTs.
+
+\subsubsection{Configuring the Provider and Wallet}
+The module initializes a connection to the Ethereum network using a provider and configures the wallet using private keys.
+
+\begin{verbatim}
+const provider = ethers.getDefaultProvider('http://127.0.0.1:8545');
+const privateKey = process.env.PRIVATE_KEY_1;
+const wallet = new ethers.Wallet(privateKey, provider);
+\end{verbatim}
+
+\subsubsection{Contract Connection}
+An instance of the contract is created using its ABI and address, allowing the backend to interact with the deployed contract.
+
+\begin{verbatim}
+const contractAddress = process.env.CONTRACT_ADDRESS;
+const contractABI = [...];
+const contract = new ethers.Contract(contractAddress, contractABI, wallet);
+\end{verbatim}
+
+\subsubsection{Buying Tokens}
+The \texttt{buyToken} function allows users to buy tokens by sending Ether to the contract.
+
+\begin{verbatim}
+async function buyToken(amount) {
+    const valueToSend = ethers.parseEther(amount);
+    const tx = await contract.buyTokens({ value: valueToSend });
+    const receipt = await tx.wait();
+    await updateBalance();
+}
+\end{verbatim}
+
+\subsubsection{Selling Tokens}
+The \texttt{sell} function enables users to sell tokens back to the contract and receive Ether.
+
+\begin{verbatim}
+async function sell(amountToSell) {
+    const tx = await contract.sellToken(amountToSell);
+    const receipt = await tx.wait();
+    await updateBalance();
+}
+\end{verbatim}
+
+\subsubsection{Rewarding Users}
+The \texttt{reward} function allows the backend to distribute rewards to users, transferring tokens from the owner’s balance.
+
+\begin{verbatim}
+async function reward(amountToReward) {
+    const tx = await contract.reward(amountToReward);
+    const receipt = await tx.wait();
+    await updateBalance();
+}
+\end{verbatim}
 
 \end{document}
+
+% \documentclass[../main.tex]{subfiles}
+
+% \begin{document}
+
+% % --- IMPLEMENTATION ---
+
+% \section{Implementation}\label{sec:implementation}
+% This chapter focuses on the implementation of the smart contract that powers the Donuts Games dApp. We will highlight key functionalities related to the management of the platform’s native token, DNT. For each feature, code snippets will be presented alongside explanations to clarify how the functionality works.
+
+% The smart contract, written in \textbf{Solidity} and developed using \textbf{Hardhat}, allows users to buy, sell, transfer tokens, and receive rewards. Core features include:
+% \begin{itemize}
+%     \item Token creation and management.
+%     \item Buying and selling tokens.
+%     \item Token transfers and reward distribution.
+%     \item Error handling and security measures to protect the contract.
+% \end{itemize}
+
+% We will also include descriptions of all the modules involved in interacting with the smart contract, providing a complete view of how the system's components work together.
+
+% Finally, an overview of the tests implemented to ensure the correct operation of the smart contract will be provided. This chapter aims to offer a clear understanding of the contract’s implementation and its role in the Donuts Games platform.
+
+% % --- SMART CONTRACT - TOKEN.SOL ---
+
+% \subsection{Smart Contract - Token.sol}
+% The Donut Token smart contract is the foundation of the Donuts Games dApp, providing essential functionality for token management and user interactions. Written in \textbf{Solidity}, it is designed to manage the native token, \textbf{DNT} (Donut Token), including token transfers, purchases, sales, and a reward system. Additionally, it supports non-fungible token (NFT) creation and trading. Below is a detailed breakdown of the key functionalities.
+
+% % --- TOKEN CREATION AND INITIALIZATION ---
+
+% \subsubsection{Token Creation and Initialization}
+% The contract begins by defining the \textit{name}, \textit{symbol}, and \textit{total supply} of the token. Upon deployment, all tokens (1,000,000 DNT) are assigned to the contract owner. The constructor assigns the initial token balance to the deployer's address, making them the owner of all DNT tokens.
+
+% \textbf{Key Components}:
+% \begin{itemize}
+%     \item \textit{name}: Donut Token (DNT).
+%     \item \textit{totalSupply}: 1,000,000 DNT.
+%     \item \textit{owner}: Address of the contract deployer, who initially holds all tokens.
+% \end{itemize}
+
+% \begin{verbatim}
+% constructor() {
+%     balances[msg.sender] = totalSupply;
+%     owner = msg.sender;
+% }
+% \end{verbatim}
+
+% % --- TOKEN TRANSFER ---
+
+% \subsubsection{Token Transfer}
+% The contract includes a \texttt{transfer} function, allowing users to send tokens from one Ethereum address to another. The function checks if the sender has enough tokens, deducts the amount from their balance, and credits it to the recipient.
+
+% \begin{verbatim}
+% function transfer(address to, uint256 amount) external {
+%     require(balances[msg.sender] >= amount, "Not enough tokens");
+%     balances[msg.sender] -= amount;
+%     balances[to] += amount;
+%     emit Transfer(msg.sender, to, amount);
+% }
+% \end{verbatim}
+
+% % --- BUYING TOKENS ---
+
+% \subsubsection{Buying Tokens}
+% Users can purchase DNT tokens by sending Ether to the contract using the \texttt{buyTokens} function. The contract calculates how many tokens to issue based on a fixed exchange rate, then transfers the tokens from the owner’s balance to the buyer.
+
+% \begin{verbatim}
+% function buyTokens() external payable {
+%     uint256 amountToBuy = msg.value / rate;
+%     require(amountToBuy > 0, "You need to send some Ether");
+%     require(balances[owner] >= amountToBuy, "Not enough tokens available");
+%     balances[owner] -= amountToBuy;
+%     balances[msg.sender] += amountToBuy;
+%     emit Transfer(owner, msg.sender, amountToBuy);
+%     emit Buy(msg.sender, amountToBuy);
+% }
+% \end{verbatim}
+
+% % --- SELLING TOKENS ---
+
+% \subsubsection{Selling Tokens}
+% The \texttt{sellToken} function allows users to sell their DNT tokens back to the contract in exchange for Ether. The function calculates the amount of Ether based on the token price, ensures the contract holds enough Ether, and processes the sale.
+
+% \begin{verbatim}
+% function sellToken(uint256 amountToSell) external {
+%     require(balances[msg.sender] >= amountToSell, "Not enough tokens");
+%     uint256 etherAmount = amountToSell * rate;
+%     require(address(this).balance >= etherAmount, "Not enough Ether in the contract");
+%     balances[msg.sender] -= amountToSell;
+%     balances[owner] += amountToSell;
+%     payable(msg.sender).transfer(etherAmount);
+%     emit Transfer(msg.sender, owner, amountToSell);
+% }
+% \end{verbatim}
+
+% % --- REWARDING USERS ---
+
+% \subsubsection{Rewarding Users}
+% The \texttt{reward} function allows the contract owner to reward users with tokens, for example, after achieving high scores in games. The function transfers tokens from the owner’s balance to the user’s address.
+
+% \begin{verbatim}
+% function reward(uint256 amountToReward) external {
+%     require(balances[owner] >= amountToReward, "Not enough tokens available");
+%     balances[owner] -= amountToReward;
+%     balances[msg.sender] += amountToReward;
+%     emit Transfer(owner, msg.sender, amountToReward);
+% }
+% \end{verbatim}
+
+% % \subsubsection{NFT Support}
+% % The contract supports NFTs, allowing users to mint, buy, sell, and transfer NFTs. Each NFT has an ID, price, and associated image URI. The \texttt{mintNFT} function generates new NFTs, while the \texttt{buyNFT} function lets users purchase them with DNT tokens.
+
+% % \begin{verbatim}
+% % function mintNFT(uint256 price, string calldata imageURI) external {
+% %     uint256 tokenId = nextTokenId;
+% %     nfts[tokenId] = NFT(tokenId, msg.sender, price, imageURI);
+% %     nextTokenId += 1;
+% %     emit NFTMinted(tokenId, msg.sender);
+% % }
+% % \end{verbatim}
+
+% %### Screenshots and Code Explanation
+% % For each feature described, relevant code snippets can be captured as screenshots. These screenshots will visually represent the key parts of the contract, such as the \texttt{transfer} function for token transactions, the \texttt{buyTokens} function for token purchases, and the NFT-related functions for creating and trading NFTs.
+
+
+% % --- TESTING THE SMART CONTRACT ---
+
+% \subsection{Testing the Smart Contract}
+
+% To ensure the correct functionality and security of the Donut Token smart contract, a series of tests were written using \textbf{Hardhat} and \textbf{Chai} for assertions. These tests verify the key functionalities of the contract, such as token transfers, purchases, sales, and NFT minting. The tests cover both expected outcomes and edge cases where errors should be handled.
+
+% \subsubsection{Deployment Tests}
+% These tests verify that the contract is correctly deployed with the proper owner and that the total supply of tokens is assigned to the owner’s address.
+
+% \begin{verbatim}
+% it("Should set the right owner", async function () {
+%     expect(await token.owner()).to.equal(owner.address);
+% });
+
+% it("Should assign the total supply of tokens to the owner", async function () {
+%     const ownerBalance = await token.balanceOf(owner.address);
+%     expect(ownerBalance).to.equal(await token.totalSupply());
+% });
+% \end{verbatim}
+
+% \subsubsection{Transaction Tests}
+% These tests check that tokens can be transferred between accounts and ensure that the transfer fails if the sender does not have enough tokens.
+
+% \begin{verbatim}
+% it("Should transfer tokens between accounts", async function () {
+%     await token.transfer(addr1.address, 50);
+%     const addr1Balance = await token.balanceOf(addr1.address);
+%     expect(addr1Balance).to.equal(50);
+% });
+
+% it("Should fail if sender doesn’t have enough tokens", async function () {
+%     await expect(token.connect(addr1).transfer(addr2.address, ethers.parseEther("101")))
+%         .to.be.revertedWith("Not enough tokens");
+% });
+% \end{verbatim}
+
+% \subsubsection{Buy Tokens Test}
+% This test verifies that users can purchase tokens by sending Ether to the contract and receive the correct amount of tokens based on the conversion rate.
+
+% \begin{verbatim}
+% it("Should allow users to buy tokens by sending ether", async function () {
+%     const amountInEther = ethers.parseEther("1");
+%     await addr1.sendTransaction({ to: token.target, value: amountInEther });
+%     await token.connect(addr1).buyTokens({ value: amountInEther });
+%     const addr1Balance = await token.balanceOf(addr1.address);
+%     expect(addr1Balance).to.equal(amountInEther / (await token.rate()));
+% });
+% \end{verbatim}
+
+% \subsubsection{Withdraw Ether Test}
+% These tests ensure that only the owner can withdraw Ether from the contract and that the withdrawal increases the owner's balance.
+
+% \begin{verbatim}
+% it("Should allow the owner to withdraw Ether", async function () {
+%     const amountInEther = ethers.parseEther("1");
+%     await addr1.sendTransaction({ to: token.target, value: amountInEther });
+%     await token.connect(owner).withdraw();
+%     const finalOwnerBalance = await ethers.provider.getBalance(owner.address);
+%     expect(finalOwnerBalance).to.be.above(initialOwnerBalance);
+% });
+
+% it("Should not allow non-owner to withdraw Ether", async function () {
+%     await expect(token.connect(addr1).withdraw()).to.be.revertedWith("Only the owner can withdraw funds");
+% });
+% \end{verbatim}
+
+% \subsubsection{Selling Tokens Test}
+% This test verifies that users can sell tokens and receive Ether in return, and it checks for failure when users try to sell more tokens than they own.
+
+% \begin{verbatim}
+% it("Should allow a user to sell tokens and receive Ether", async function () {
+%     await token.connect(owner).transfer(addr1.address, 1000);
+%     const amountToSell = 10;
+%     await token.connect(addr1).sellToken(amountToSell);
+%     const addr1Balance = await token.balanceOf(addr1.address);
+%     expect(addr1Balance).to.equal(1000 - amountToSell);
+% });
+
+% it("Should fail if user tries to sell more tokens than they have", async function () {
+%     await expect(token.connect(addr1).sellToken(2000)).to.be.revertedWith("Not enough tokens to sell");
+% });
+% \end{verbatim}
+
+% % \subsubsection{Minting NFTs Test}
+% % This test checks that users can mint new NFTs, ensuring that the correct NFT is assigned to the caller and that the token ID is incremented correctly for each minted NFT.
+
+% % \begin{verbatim}
+% % it("Should mint a new NFT and assign it to the caller", async function () {
+% %     const price = 100;
+% %     const imageURI = "ipfs://example-uri";
+% %     await expect(token.connect(addr1).mintNFT(price, imageURI))
+% %         .to.emit(token, "NFTMinted")
+% %         .withArgs(1, addr1.address);
+% % });
+
+% % it("Should increment the tokenId correctly", async function () {
+% %     await token.connect(addr1).mintNFT(100, "ipfs://example-uri-1");
+% %     await token.connect(addr2).mintNFT(100, "ipfs://example-uri-2");
+% %     const nft1 = await token.nfts(0);
+% %     const nft2 = await token.nfts(1);
+% %     expect(nft1.tokenId).to.equal(0);
+% %     expect(nft2.tokenId).to.equal(1);
+% % });
+% % \end{verbatim}
+
+% These tests ensure that the Donut Token contract operates as expected under normal conditions, handling token transfers, purchases and sales properly. Edge cases, such as insufficient balances or unauthorized actions, are also accounted for, ensuring the security and reliability of the contract.
+
+% \subsection{Deploying the Smart Contract}
+
+% The deployment of the Donut Token smart contract is handled by the \texttt{deployToken.js} script. This script leverages the \textbf{ethers.js} library to deploy the contract on the Ethereum blockchain. The deployment process is wrapped in an asynchronous function to manage blockchain interactions smoothly.
+
+% \subsubsection{Function Declaration}
+% The script starts by defining the \texttt{main} function as asynchronous. Deploying contracts involves asynchronous operations, which is why the use of \texttt{async} is necessary.
+
+% \begin{verbatim}
+% async function main() {
+% \end{verbatim}
+
+% \subsubsection{Getting the Deployer}
+% The deployer's account is retrieved using \texttt{ethers.getSigners()}, which returns an array of signers. In this case, the first signer (the deployer) is extracted.
+
+% \begin{verbatim}
+% const [deployer] = await ethers.getSigners();
+% console.log("Deploying contracts with the account:", deployer.address);
+% \end{verbatim}
+
+% This logs the address of the deployer, allowing visibility into which account is deploying the contract.
+
+% \subsubsection{Creating the Contract Instance}
+% Using \texttt{ethers.getContractFactory()}, the script creates an instance of the contract factory for the \texttt{Token} contract. The contract factory acts as a template for creating instances of the contract.
+
+% \begin{verbatim}
+% const Token = await ethers.getContractFactory("Token");
+% \end{verbatim}
+
+% \subsubsection{Deploying the Contract}
+% The \texttt{deploy} function is then called to deploy the contract to the blockchain. Once deployed, the contract is assigned a unique address, stored in the \texttt{token.target} variable.
+
+% \begin{verbatim}
+% const token = await Token.deploy();
+% console.log("Token deployed to:", token.target);
+% \end{verbatim}
+
+% This logs the deployed contract’s address to the console for reference.
+
+% \subsubsection{Handling Completion and Errors}
+% Finally, the script calls the \texttt{main()} function and handles any potential errors by logging them and ensuring the process exits correctly.
+
+% \begin{verbatim}
+% main()
+%     .then(() => process.exit(0))
+%     .catch(error => {
+%         console.error(error);
+%         process.exit(1);
+%     });
+% \end{verbatim}
+
+% This ensures that the deployment process is completed or terminated properly in the case of an error.
+
+% % \subsubsection{Summary}
+% % The \texttt{deployToken.js} script ensures that the Donut Token smart contract is deployed securely to the Ethereum blockchain, making it ready for interactions from other components of the Donuts Games dApp. The script efficiently retrieves the deployer's address, creates the contract instance, deploys it, and handles any errors that may arise during the process.
+
+% \subsection{Backend.js Module}
+
+% The \texttt{backend.js} module is responsible for interacting with the Ethereum smart contract from the backend. It leverages the \textbf{ethers.js} library to manage various operations, including token transactions, NFT management, and reward distribution. Below are the key functions of this module.
+
+% \subsubsection{Configuring the Provider and Wallet}
+% The script starts by configuring the connection to the Ethereum provider using Hardhat and initializing a wallet instance. The private key is retrieved from environment variables.
+
+% \begin{verbatim}
+% const provider = ethers.getDefaultProvider('http://127.0.0.1:8545');
+% const privateKey = process.env.PRIVATE_KEY_1;
+% const wallet = new ethers.Wallet(privateKey, provider);
+% \end{verbatim}
+
+% \subsubsection{Contract Connection}
+% An instance of the smart contract is created using the contract address and its \textbf{ABI} (Application Binary Interface). The ABI defines the contract’s functions that the backend can interact with.
+
+% \begin{verbatim}
+% const contractAddress = process.env.CONTRACT_ADDRESS;
+% const contractABI = [
+%     "function buyTokens() public payable",
+%     "function reward(uint256 amountToReward) external",
+%     "function sellToken(uint256 amountToSell) external",
+%     "function balanceOf(address account) view returns (uint256)",
+%     "function mintNFT(uint256 price, string calldata imageURI) external",
+%     "function getImageURI(uint256 tokenId) view returns (string)",
+%     "function listNFTForSale(uint256 tokenId, uint256 price) external",
+%     "function buyNFT(uint256 tokenId) external"
+% ];
+% const contract = new ethers.Contract(contractAddress, contractABI, wallet);
+% \end{verbatim}
+
+% \subsubsection{Updating the Balance}
+% The \texttt{updateBalance} function calls the contract’s \texttt{balanceOf} function to retrieve the user's current balance and logs it to the console.
+
+% \begin{verbatim}
+% async function updateBalance() {
+%     const balance = await contract.balanceOf(wallet.address);
+%     console.log("Updated balance:", balance.toString());
+% }
+% \end{verbatim}
+
+% \subsubsection{Buying Tokens}
+% The \texttt{buyToken} function allows users to purchase DNT tokens by sending Ether. The transaction is made by calling the smart contract's \texttt{buyTokens} function.
+
+% \begin{verbatim}
+% async function buyToken(amount) {
+%     const valueToSend = ethers.parseEther(amount);
+%     const tx = await contract.buyTokens({ value: valueToSend });
+%     const receipt = await tx.wait();
+%     await updateBalance();
+% }
+% \end{verbatim}
+
+% \subsubsection{Selling Tokens}
+% The \texttt{sell} function allows users to sell their DNT tokens for Ether by calling the \texttt{sellToken} function of the contract. Once the sale is complete, the balance is updated.
+
+% \begin{verbatim}
+% async function sell(amountToSell) {
+%     const tx = await contract.sellToken(amountToSell);
+%     const receipt = await tx.wait();
+%     await updateBalance();
+% }
+% \end{verbatim}
+
+% \subsubsection{Distributing Rewards}
+% The \texttt{reward} function allows the backend to reward users with tokens, typically based on their achievements in games or quests. This function interacts with the \texttt{reward} method in the smart contract.
+
+% \begin{verbatim}
+% async function reward(amountToReward) {
+%     const tx = await contract.reward(amountToReward);
+%     const receipt = await tx.wait();
+%     await updateBalance();
+% }
+% \end{verbatim}
+
+% % \subsubsection{Minting NFTs}
+% % The \texttt{mint\_NFT} function allows users to mint new NFTs. The user specifies a price and image URI, which are passed to the smart contract's \texttt{mintNFT} function.
+
+% % \begin{verbatim}
+% % async function mint_NFT() {
+% %     const tx = await contract.mintNFT(priceInTokens, imageURI);
+% %     const receipt = await tx.wait();
+% % }
+% % \end{verbatim}
+
+% % \subsubsection{Fetching NFT URI}
+% % The \texttt{get\_uri} function retrieves the image URI of an NFT using its token ID. This URI can then be displayed to the user.
+
+% % \begin{verbatim}
+% % async function get_uri(id) {
+% %     const uri = await contract.getImageURI(id);
+% %     console.log('URI: ', uri);
+% % }
+% % \end{verbatim}
+
+% % \subsubsection{Listing NFTs for Sale}
+% % The \texttt{sale\_nft} function lists an NFT for sale by calling the smart contract's \texttt{listNFTForSale} function.
+
+% % \begin{verbatim}
+% % async function sale_nft() {
+% %     const tx = await contract.listNFTForSale(1, 10);
+% %     const receipt = await tx.wait();
+% % }
+% % \end{verbatim}
+
+% % \subsubsection{Buying NFTs}
+% % The \texttt{buy\_nft} function allows users to purchase an NFT by calling the \texttt{buyNFT} function on the smart contract.
+
+% % \begin{verbatim}
+% % async function buy_nft(id) {
+% %     const tx = await contract.buyNFT(id);
+% %     const receipt = await tx.wait();
+% % }
+% % \end{verbatim}
+
+% This module is crucial for facilitating communication between the backend of the Donuts Games dApp and the Ethereum smart contract, allowing users to buy, sell, and interact with tokens and NFTs.
+
+% \end{document}
