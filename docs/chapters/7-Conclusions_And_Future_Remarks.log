@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  9 SEP 2024 23:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 00:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -552,8 +552,8 @@ LaTeX Info: Redefining \nameref on input line 3.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Overfull \hbox (3.32927pt too wide) in paragraph at lines 14--15
-[]\OT1/cmr/m/n/12 One fea-ture that re-mains in-com-plete is the NFT trad-ing sec-tion. Once im-ple-mented,
+Underfull \hbox (badness 10000) in paragraph at lines 12--13
+
  []
 
 
@@ -570,13 +570,13 @@ Package rerunfilecheck Info: File `7-Conclusions_And_Future_Remarks.out' has not
 Here is how much of TeX's memory you used:
  13335 strings out of 480247
  216398 string characters out of 5896152
- 509871 words of memory out of 5000000
+ 510871 words of memory out of 5000000
  31080 multiletter control sequences out of 15000+600000
  470332 words of font info for 32 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,5n,94p,663b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,5n,94p,855b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on chapters/7-Conclusions_And_Future_Remarks.pdf (1 page, 35884 bytes).
+Output written on chapters/7-Conclusions_And_Future_Remarks.pdf (1 page, 36557 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  23 compressed objects within 1 object stream
