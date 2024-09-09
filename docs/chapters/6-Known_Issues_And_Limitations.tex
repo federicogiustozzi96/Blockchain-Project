@@ -2,7 +2,108 @@
 
 \begin{document}
 
-\section{Known Issues and Limitations}\label{sec:issue_limitations}
-In the ever-changing digital landscape, we are witnessing a technology that has captured the attention of experts, media, and users worldwide: deepfakes...
+\section{Known Issues and Limitations}
+
+During the development and testing phases of the dApp, several known issues and limitations were identified. These are discussed in the following sections:
+
+\subsection{Known Issues}
+
+\begin{enumerate}
+    \item \textbf{Error Handling in Transactions}: \texttt{Backend.js} interactions with the Ethereum provider via \texttt{ethers.js} lack sufficient error handling. Failures in transactions or connections are not properly logged, making troubleshooting difficult.
+%ESEMPIO da backend.js:
+    % const { ethers } = require('ethers');
+    % require("dotenv").config();
+
+    % // Configura la connessione al provider di Ethereum
+    % const provider = ethers.getDefaultProvider('http://127.0.0.1:8545');
+
+    % // Chiave privata per firmare la transazione
+    % const wallet = new ethers.Wallet(process.env.PRIVATE_KEY_1, provider);
+
+    % // Funzione per inviare token
+    % async function sendTokens(to, amount) {
+    %     const tx = await wallet.sendTransaction({
+    %         to: to,
+    %         value: ethers.utils.parseEther(amount)
+    %     });
+    %     console.log("Transaction Hash:", tx.hash);
+    % }
+    %In questo esempio, la funzione sendTokens invia una transazione ma non gestisce adeguatamente gli errori. Se la connessione fallisce o se la transazione non va a buon fine, il sistema non cattura né logga l'errore, rendendo difficile capire cosa sia andato storto.
+    
+    %POSSIBILE SOLUZIONE:
+%     Per gestire correttamente gli errori, possiamo utilizzare un blocco try-catch:
+
+%     async function sendTokens(to, amount) {
+%     try {
+%         const tx = await wallet.sendTransaction({
+%             to: to,
+%             value: ethers.utils.parseEther(amount)
+%         });
+%         console.log("Transaction Hash:", tx.hash);
+%     } catch (error) {
+%         console.error("Transaction failed:", error);
+%     }
+% }
+% Il blocco try-catch cattura eventuali errori durante l'invio della transazione e li logga usando console.error, facilitando il debugging.
+% Questo aiuta a identificare rapidamente i problemi legati a fallimenti nelle connessioni o nelle transazioni, migliorando l'affidabilità dell'applicazione.
+    
+    \item \textbf{Private Key Security}: The use of private keys in \texttt{Backend.js} through environment variables poses a security risk. Misconfiguration or exposure of these keys could lead to unauthorized access and system compromise.
+%in backend.js, la chiave privata viene caricata dalla variabile d'ambiente .env accessibile tramite process.env.PRIVATE_KEY_1), che viene poi utilizzata per creare un wallet nel backend con cui firmare transazioni sulla blockchain.
+%e le chiavi private vengono accidentalmente esposte (ad esempio, se il file .env viene commesso in un repository pubblico su GitHub o se viene condiviso senza crittografia), malintenzionati potrebbero accedere a questa chiave. Questo consentirebbe loro di:
+% -Inviare transazioni dal wallet associato.
+% -Manipolare fondi o asset digitali legati all'account.
+% -Eseguire azioni malevole sulla blockchain, compromettendo l'intera applicazione.    
+%
+%Anche se la chiave è memorizzata in una variabile d'ambiente, una configurazione errata (ad esempio, dimenticare di configurare correttamente le variabili su un server di produzione) potrebbe portare all'utilizzo di chiavi errate o all'esposizione di tali chiavi nei log, mettendo a rischio la sicurezza dell'applicazione.    
+    
+    \item \textbf{Input Validation}: Modules like \texttt{rewards.js}, \texttt{scores.js}, and \texttt{username.js} lack proper input validation, making the application vulnerable to SQL injection and data inconsistencies.
+%ESEMPIO in score.js
+%Se un utente invia un valore malizioso come '; DROP TABLE scores; -- per il campo username, la query risultante sarà:
+%INSERT INTO scores (username, game, points) VALUES (''; DROP TABLE scores; --', 'game', '10')
+%Questo potrebbe eliminare completamente la tabella scores dal database!
+
+   \item \textbf{Unprotected API Endpoints}: \texttt{pages.js} lacks authentication for API endpoints, allowing unauthorized users to access sensitive operations, such as score registration and wallet verification.
+%ESEMPIO in pages.js
+%chiunque può accedere agli endpoint /verifyWallet, /registerUser, /score, e /scores senza alcuna autenticazione o autorizzazione. Questo significa che:
+% -Verifica del Wallet (/verifyWallet): Un utente malintenzionato potrebbe inviare una richiesta a questo endpoint senza essere autenticato, ottenendo informazioni sensibili sul wallet.
+% -Registrazione di Punteggi (/score): Qualsiasi utente non autenticato potrebbe registrare punteggi nel sistema, falsando i risultati o iniettando dati dannosi.
+% -Registrazione Utente (/registerUser): Un utente non autenticato potrebbe creare utenti nel sistema senza alcuna verifica.
+%CONSEGUENE:
+% -Manipolazione dei Dati: Gli utenti non autorizzati potrebbero inviare richieste per registrare punteggi fasulli o verificare wallet non appartenenti a loro.
+% -Violazione della Privacy: Le informazioni personali o del wallet degli utenti possono essere esposte a malintenzionati.
+% -Assenza di Controllo: L'applicazione non ha meccanismi per impedire l'accesso non autorizzato ai suoi endpoint critici.
+
+    \item \textbf{Lack of Comprehensive Tests}: The test suite in \texttt{TokenTest.js} only covers basic functionality. No tests for negative scenarios, performance, or security vulnerabilities, leaving gaps in robustness.
+\end{enumerate}
+%Nell'esempio sopra, i test verificano solo la funzionalità di base del contratto, come:
+% La distribuzione del contratto.
+% La possibilità di trasferire token tra account.
+% Tuttavia, non ci sono test per:
+% -Scenari negativi: Non ci sono test per verificare cosa succede quando si tenta di trasferire più token di quelli disponibili nel bilancio.
+% -Sicurezza: Non vengono testate potenziali vulnerabilità di sicurezza, come la protezione da attacchi di reentrancy o altri tipi di attacchi al contratto.
+% -Performance: Non ci sono test per valutare la capacità del contratto di gestire un alto numero di transazioni o l'efficienza durante l'esecuzione di operazioni intensive.
+% -Eventi: Non viene verificato se il contratto emette correttamente eventi durante le operazioni, una parte importante della trasparenza nei contratti.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+    \item \textbf{Solidity Compiler Compatibility}: The smart contract \texttt{Token.sol} is written for Solidity version 0.8.24, limiting its compatibility with future versions. It also lacks advanced features like \texttt{burn} or \texttt{pause}, reducing extensibility.
+%La funzione burn consente di eliminare permanentemente una certa quantità di token dalla circolazione. Questo può essere utile in vari scenari, come il controllo dell'offerta totale di token o l'implementazione di meccanismi deflazionistici. Una volta che un token è "bruciato", non può più essere utilizzato o trasferito, riducendo quindi l'offerta totale.
+%La funzione pause consente agli amministratori del contratto di interrompere temporaneamente tutte le operazioni che coinvolgono il trasferimento di token o altre funzioni sensibili. Questo è utile in caso di emergenza, come un attacco al contratto o un bug scoperto che richiede un intervento immediato.
+
+    \item \textbf{Reliance on MetaMask}: The dApp depends exclusively on MetaMask for blockchain interactions, limiting accessibility for users without MetaMask. No fallback mechanisms are in place to support other wallets.
+
+    \item \textbf{Gas Costs and Scalability}: The dApp is subject to Ethereum's fluctuating gas fees, which may hinder usability during network congestion. No optimization mechanisms are present to reduce gas consumption.
+%Gas fee -> È una commissione pagata dagli utenti per eseguire operazioni sulla rete Ethereum. Questa fee viene calcolata in base alla complessità computazionale dell'operazione. Più risorse richiede una transazione o interazione con uno smart contract, più gas sarà necessario.
+%Le gas fees su Ethereum possono variare drasticamente a seconda della congestione della rete. Quando la rete è molto occupata (ad esempio durante periodi di alta attività, come l'esecuzione di grandi vendite di NFT o il lancio di nuovi progetti DeFi), le gas fees possono salire a livelli molto elevati, rendendo costose anche le operazioni più semplici.
+%EFFETTI DEI GAS FEES FLUTTUANTI:
+% -Aumento dei costi di transazione: Gli utenti della tua dApp dovranno pagare di più durante i periodi di alta congestione della rete per eseguire operazioni, come trasferimenti di token o interazioni con il contratto intelligente.
+% -Esperienza utente degradata: Quando i costi del gas aumentano, gli utenti potrebbero evitare di eseguire transazioni, il che rende la tua dApp meno utilizzabile. In particolare, gli utenti con piccoli saldi potrebbero non essere in grado di permettersi di pagare le commissioni elevate.
+% -Ritardi nelle transazioni: Se gli utenti scelgono di pagare una gas fee inferiore durante la congestione, le loro transazioni potrebbero richiedere molto tempo per essere confermate, creando frustrazione e ritardi nell'uso della dApp.
+%Attualmente la dApp non implementa meccanismi per ottimizzare o ridurre il consumo di gas, il che significa che ogni operazione viene eseguita senza considerare i costi del gas. 
+   
+    \item \textbf{NFT Trading Not Implemented}: The dApp includes a section for buying and selling NFTs, but this feature has not yet been implemented, limiting the dApp’s current scope.
+
+\end{enumerate}
 
 \end{document}

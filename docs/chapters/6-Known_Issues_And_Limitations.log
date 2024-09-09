@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  7 SEP 2024 12:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 00:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -11,7 +11,7 @@ Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
 Preamble taken from file `../main.tex'
 (/usr/share/texlive/texmf-dist/tex/latex/import/import.sty
 Package: import 2020/04/01  v 6.2
-) (../main.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+) (chapters/../main.tex (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
 File: size12.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
@@ -458,7 +458,7 @@ Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count310
 \l__pdf_internal_box=\box102
-) (./6-Known_Issues_And_Limitations.aux)
+) (chapters/6-Known_Issues_And_Limitations.aux)
 \openout1 = `6-Known_Issues_And_Limitations.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
@@ -545,36 +545,51 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 3.
 LaTeX Info: Redefining \pageref on input line 3.
 LaTeX Info: Redefining \nameref on input line 3.
- (./6-Known_Issues_And_Limitations.out) (./6-Known_Issues_And_Limitations.out)
+ (chapters/6-Known_Issues_And_Limitations.out) (chapters/6-Known_Issues_And_Limitations.out)
 \@outlinefile=\write3
 \openout3 = `6-Known_Issues_And_Limitations.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
-Overfull \hbox (2.62547pt too wide) in paragraph at lines 6--7
-\OT1/cmr/m/n/12 In the ever-changing dig-i-tal land-scape, we are wit-ness-ing a tech-nol-ogy that has cap-tured
+Overfull \hbox (0.84756pt too wide) in paragraph at lines 12--16
+[]\OT1/cmr/bx/n/12 Error Han-dling in Trans-ac-tions\OT1/cmr/m/n/12 : \OT1/cmtt/m/n/12 Backend.js \OT1/cmr/m/n/12 in-ter-ac-tions with the Ethereum
+ []
+
+
+Overfull \hbox (20.13556pt too wide) in paragraph at lines 50--58
+[]\OT1/cmr/bx/n/12 Private Key Se-cu-rity\OT1/cmr/m/n/12 : The use of pri-vate keys in \OT1/cmtt/m/n/12 Backend.js \OT1/cmr/m/n/12 through en-vi-ron-ment
+ []
+
+
+Overfull \hbox (12.46237pt too wide) in paragraph at lines 65--75
+[]\OT1/cmr/bx/n/12 Unprotected API End-points\OT1/cmr/m/n/12 : \OT1/cmtt/m/n/12 pages.js \OT1/cmr/m/n/12 lacks au-then-ti-ca-tion for API end-points,
+ []
+
+
+Overfull \hbox (10.59344pt too wide) in paragraph at lines 65--75
+\OT1/cmr/m/n/12 al-low-ing unau-tho-rized users to ac-cess sen-si-tive op-er-a-tions, such as score reg-is-tra-tion
  []
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./6-Known_Issues_And_Limitations.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (chapters/6-Known_Issues_And_Limitations.aux)
 Package rerunfilecheck Info: File `6-Known_Issues_And_Limitations.out' has not changed.
-(rerunfilecheck)             Checksum: A32DD1CD022276A50C06DDE9EE582453;192.
+(rerunfilecheck)             Checksum: DE992CEE967201FD2873BA53AF5EC96B;424.
  ) 
 Here is how much of TeX's memory you used:
- 13330 strings out of 480247
- 216219 string characters out of 5896152
- 501859 words of memory out of 5000000
- 31078 multiletter control sequences out of 15000+600000
- 470163 words of font info for 31 fonts, out of 8000000 for 9000
+ 13350 strings out of 480247
+ 216509 string characters out of 5896152
+ 511816 words of memory out of 5000000
+ 31084 multiletter control sequences out of 15000+600000
+ 471244 words of font info for 35 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,5n,94p,437b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on 6-Known_Issues_And_Limitations.pdf (1 page, 25561 bytes).
+ 87i,5n,94p,463b,326s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on chapters/6-Known_Issues_And_Limitations.pdf (1 page, 44406 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 20 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
- 9 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 PDF objects out of 1000 (max. 8388607)
+ 43 compressed objects within 1 object stream
+ 14 named destinations out of 1000 (max. 500000)
+ 25 words of extra memory for PDF output out of 10000 (max. 10000000)
 
