@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  8 SEP 2024 20:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 23:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -603,12 +603,12 @@ Overfull \hbox (30.78723pt too wide) in paragraph at lines 124--124
 []    \OT1/cmtt/m/n/12 await addr1.sendTransaction({ to: token.target, value: amountInEther });[] 
  []
 
-
+[3]
 Overfull \hbox (6.08722pt too wide) in paragraph at lines 124--124
 []    \OT1/cmtt/m/n/12 expect(addr1Balance).to.equal(amountInEther / (await token.rate()));[] 
  []
 
-[3]
+
 Overfull \hbox (30.78723pt too wide) in paragraph at lines 141--141
 []    \OT1/cmtt/m/n/12 await addr1.sendTransaction({ to: token.target, value: amountInEther });[] 
  []
@@ -639,7 +639,7 @@ Overfull \hbox (197.51231pt too wide) in paragraph at lines 158--158
  []
 
 [4]
-Overfull \hbox (24.61223pt too wide) in paragraph at lines 209--209
+Overfull \hbox (24.61223pt too wide) in paragraph at lines 210--210
 []\OT1/cmtt/m/n/12 const contract = new ethers.Contract(contractAddress, contractABI, wallet);[] 
  []
 
@@ -654,9 +654,9 @@ Here is how much of TeX's memory you used:
  31103 multiletter control sequences out of 15000+600000
  471244 words of font info for 35 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,5n,94p,618b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,5n,94p,848b,478s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on chapters/5-Implementation.pdf (6 pages, 57816 bytes).
+Output written on chapters/5-Implementation.pdf (6 pages, 57618 bytes).
 PDF statistics:
  139 PDF objects out of 1000 (max. 8388607)
  123 compressed objects within 2 object streams

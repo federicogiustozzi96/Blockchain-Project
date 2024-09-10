@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 00:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 23:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -551,7 +551,7 @@ Package caption Info: End \AtBeginDocument code.
 \openout2 = `title.aux'.
 
  (./title.tex
-<src/SapienzaLogo.pdf, id=168, 284.52731pt x 85.33737pt>
+<src/SapienzaLogo.pdf, id=176, 284.52731pt x 85.33737pt>
 File: src/SapienzaLogo.pdf Graphic file (type pdf)
 <use src/SapienzaLogo.pdf>
 Package pdftex.def Info: src/SapienzaLogo.pdf  used on input line 4.
@@ -569,7 +569,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./src/SapienzaLogo.pdf>]) (./main.tocpdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.38 ...ine {6.1}Known Issues}{21}{subsection.6.1}
+l.38 ...}Rewarding Users}{21}{subsubsection.5.4.5}
                                                   % [1
 
 
@@ -578,16 +578,16 @@ l.38 ...ine {6.1}Known Issues}{21}{subsection.6.1}
 \openout4 = `main.toc'.
 
  [2] (./chapters/1-Preface.tex
-Underfull \hbox (badness 2980) in paragraph at lines 6--11
+Underfull \hbox (badness 2980) in paragraph at lines 6--7
 \OT1/cmr/m/n/12 (DApp) that of-fers an en-gag-ing ex-pe-ri-ence through mini-games like Tetris,
  []
 
-) [3] (./chapters/2-Background.tex
+) [3] [4] (./chapters/2-Background.tex
 Underfull \hbox (badness 3323) in paragraph at lines 18--19
 []\OT1/cmr/bx/n/12 Decentralization\OT1/cmr/m/n/12 : Un-like tra-di-tional cen-tral-ized databases, blockchain
  []
 
-[4
+[5
 
 ]
 Underfull \hbox (badness 1430) in paragraph at lines 30--31
@@ -599,15 +599,15 @@ Underfull \hbox (badness 1286) in paragraph at lines 30--31
 \OT1/cmr/m/n/12 and move-ment within the sup-ply chain, blockchain en-hances trace-abil-ity and
  []
 
-) [5] (./chapters/3-Context_Presentation.tex [6
+) [6] (./chapters/3-Context_Presentation.tex [7
 
 ]
-Underfull \hbox (badness 4531) in paragraph at lines 39--40
+Underfull \hbox (badness 4531) in paragraph at lines 40--41
 \OT1/cmr/m/n/12 con-tracts, which are es-sen-tial for au-tomat-ing to-ken trans-ac-tions and
  []
 
-) [7] (./chapters/4-Software_Architecture.tex
-<chapters//../src/diagrams/Deployment Diagram.jpg, id=251, 839.135pt x 587.19376pt>
+) [8] (./chapters/4-Software_Architecture.tex
+<chapters//../src/diagrams/Deployment Diagram.jpg, id=287, 839.135pt x 587.19376pt>
 File: chapters//../src/diagrams/Deployment Diagram.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Deployment Diagram.jpg>
 Package pdftex.def Info: chapters//../src/diagrams/Deployment Diagram.jpg  used on input line 17.
@@ -617,49 +617,49 @@ Underfull \hbox (badness 3068) in paragraph at lines 26--27
 []\OT1/cmr/m/n/12 The ar-chi-tec-ture shown re-flects the de-vel-op-ment en-vi-ron-ment, where all
  []
 
-[8
+[9
 
  <./chapters//../src/diagrams/Deployment Diagram.jpg>]
-<chapters//../src/diagrams/Smart contract class diagram.jpg, id=257, 516.93124pt x 728.7225pt>
+<chapters//../src/diagrams/Smart contract class diagram.jpg, id=293, 516.93124pt x 728.7225pt>
 File: chapters//../src/diagrams/Smart contract class diagram.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Smart contract class diagram.jpg>
 Package pdftex.def Info: chapters//../src/diagrams/Smart contract class diagram.jpg  used on input line 35.
 (pdftex.def)             Requested size: 219.2565pt x 309.08583pt.
-<chapters//../src/diagrams/Use Case Diagram.jpg, id=258, 677.53125pt x 407.5225pt>
+<chapters//../src/diagrams/Use Case Diagram.jpg, id=294, 690.58pt x 701.62125pt>
 File: chapters//../src/diagrams/Use Case Diagram.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Use Case Diagram.jpg>
 Package pdftex.def Info: chapters//../src/diagrams/Use Case Diagram.jpg  used on input line 49.
-(pdftex.def)             Requested size: 438.513pt x 263.76718pt.
- [9 <./chapters//../src/diagrams/Smart contract class diagram.jpg>]
-<chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg, id=264, 1388.18625pt x 721.69624pt>
+(pdftex.def)             Requested size: 438.513pt x 445.52454pt.
+ [10 <./chapters//../src/diagrams/Smart contract class diagram.jpg>] [11 <./chapters//../src/diagrams/Use Case Diagram.jpg>]
+<chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg, id=305, 1388.18625pt x 721.69624pt>
 File: chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg>
-Package pdftex.def Info: chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg  used on input line 67.
+Package pdftex.def Info: chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg  used on input line 69.
 (pdftex.def)             Requested size: 438.513pt x 227.97423pt.
- [10 <./chapters//../src/diagrams/Use Case Diagram.jpg>]
-<chapters//../src/diagrams/Minigames.jpg, id=270, 1367.1075pt x 757.83125pt>
+<chapters//../src/diagrams/Minigames.jpg, id=306, 1367.1075pt x 757.83125pt>
 File: chapters//../src/diagrams/Minigames.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Minigames.jpg>
-Package pdftex.def Info: chapters//../src/diagrams/Minigames.jpg  used on input line 80.
+Package pdftex.def Info: chapters//../src/diagrams/Minigames.jpg  used on input line 82.
 (pdftex.def)             Requested size: 438.513pt x 243.07756pt.
- [11 <./chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg> <./chapters//../src/diagrams/Minigames.jpg>]
-<chapters//../src/diagrams/Quiz.jpg, id=277, 1103.12125pt x 610.28pt>
+ [12 <./chapters//../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg>]
+<chapters//../src/diagrams/Quiz.jpg, id=314, 1103.12125pt x 610.28pt>
 File: chapters//../src/diagrams/Quiz.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Quiz.jpg>
-Package pdftex.def Info: chapters//../src/diagrams/Quiz.jpg  used on input line 93.
+Package pdftex.def Info: chapters//../src/diagrams/Quiz.jpg  used on input line 95.
 (pdftex.def)             Requested size: 438.513pt x 242.5991pt.
-<chapters//../src/diagrams/Buy Donuts.jpg, id=278, 1310.8975pt x 694.595pt>
+ [13 <./chapters//../src/diagrams/Minigames.jpg>]
+<chapters//../src/diagrams/Buy Donuts.jpg, id=320, 1310.8975pt x 694.595pt>
 File: chapters//../src/diagrams/Buy Donuts.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Buy Donuts.jpg>
-Package pdftex.def Info: chapters//../src/diagrams/Buy Donuts.jpg  used on input line 106.
+Package pdftex.def Info: chapters//../src/diagrams/Buy Donuts.jpg  used on input line 108.
 (pdftex.def)             Requested size: 438.513pt x 232.35426pt.
- [12 <./chapters//../src/diagrams/Quiz.jpg>]
-<chapters//../src/diagrams/Sell Donuts.jpg, id=285, 1281.78876pt x 729.72626pt>
+ [14 <./chapters//../src/diagrams/Quiz.jpg> <./chapters//../src/diagrams/Buy Donuts.jpg>]
+<chapters//../src/diagrams/Sell Donuts.jpg, id=327, 1281.78876pt x 729.72626pt>
 File: chapters//../src/diagrams/Sell Donuts.jpg Graphic file (type jpg)
 <use chapters//../src/diagrams/Sell Donuts.jpg>
-Package pdftex.def Info: chapters//../src/diagrams/Sell Donuts.jpg  used on input line 119.
+Package pdftex.def Info: chapters//../src/diagrams/Sell Donuts.jpg  used on input line 121.
 (pdftex.def)             Requested size: 438.513pt x 249.64024pt.
- [13 <./chapters//../src/diagrams/Buy Donuts.jpg> <./chapters//../src/diagrams/Sell Donuts.jpg>]) [14] (./chapters/5-Implementation.tex [15
+) [15 <./chapters//../src/diagrams/Sell Donuts.jpg>] (./chapters/5-Implementation.tex [16
 
 ]
 Overfull \hbox (24.61223pt too wide) in paragraph at lines 49--49
@@ -676,7 +676,7 @@ Overfull \hbox (43.13724pt too wide) in paragraph at lines 76--76
 []    \OT1/cmtt/m/n/12 require(balances[owner] >= amountToReward, "Not enough tokens available");[] 
  []
 
-[16]
+[17]
 Overfull \hbox (49.31224pt too wide) in paragraph at lines 95--95
 []\OT1/cmtt/m/n/12 it("Should assign the total supply of tokens to the owner", async function () {[] 
  []
@@ -701,12 +701,12 @@ Overfull \hbox (30.78723pt too wide) in paragraph at lines 124--124
 []    \OT1/cmtt/m/n/12 await addr1.sendTransaction({ to: token.target, value: amountInEther });[] 
  []
 
-
+[18]
 Overfull \hbox (6.08722pt too wide) in paragraph at lines 124--124
 []    \OT1/cmtt/m/n/12 expect(addr1Balance).to.equal(amountInEther / (await token.rate()));[] 
  []
 
-[17]
+
 Overfull \hbox (30.78723pt too wide) in paragraph at lines 141--141
 []    \OT1/cmtt/m/n/12 await addr1.sendTransaction({ to: token.target, value: amountInEther });[] 
  []
@@ -736,48 +736,49 @@ Overfull \hbox (197.51231pt too wide) in paragraph at lines 158--158
 []    \OT1/cmtt/m/n/12 await expect(token.connect(addr1).sellToken(2000)).to.be.revertedWith("Not enough tokens to sell");[] 
  []
 
-[18]
-Overfull \hbox (24.61223pt too wide) in paragraph at lines 209--209
+[19]
+Overfull \hbox (24.61223pt too wide) in paragraph at lines 210--210
 []\OT1/cmtt/m/n/12 const contract = new ethers.Contract(contractAddress, contractABI, wallet);[] 
  []
 
-[19]) [20] (./chapters/6-Known_Issues_And_Limitations.tex
+[20]) [21] (./chapters/6-Known_Issues_And_Limitations.tex
 Underfull \hbox (badness 1769) in paragraph at lines 12--16
 []\OT1/cmr/bx/n/12 Error Han-dling in Trans-ac-tions\OT1/cmr/m/n/12 : \OT1/cmtt/m/n/12 Backend.js \OT1/cmr/m/n/12 in-ter-ac-tions with the
  []
 
-) [21
+) [22
 
 ] (./chapters/7-Conclusions_And_Future_Remarks.tex
-Underfull \hbox (badness 10000) in paragraph at lines 12--13
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
 
-) [22
 
-] (./main.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
+ []
 
 ) [23
 
+] (./main.bbl) [24
+
 ] (./main.aux (./title.aux))
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 39A044D329449769AFA116F564D877EE;6909.
+(rerunfilecheck)             Checksum: D034444F6F4C962DBDEFD3EC2AE56E0C;7148.
  ) 
 Here is how much of TeX's memory you used:
- 13665 strings out of 480247
- 223851 string characters out of 5896152
- 515789 words of memory out of 5000000
- 31268 multiletter control sequences out of 15000+600000
- 477437 words of font info for 58 fonts, out of 8000000 for 9000
+ 13690 strings out of 480247
+ 224344 string characters out of 5896152
+ 516162 words of memory out of 5000000
+ 31280 multiletter control sequences out of 15000+600000
+ 477784 words of font info for 59 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 67i,6n,77p,919b,570s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (24 pages, 819202 bytes).
+ 67i,6n,77p,936b,570s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on main.pdf (25 pages, 847613 bytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
- 340 compressed objects within 4 object streams
- 83 named destinations out of 1000 (max. 500000)
- 374 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 433 PDF objects out of 1000 (max. 8388607)
+ 381 compressed objects within 4 object streams
+ 95 named destinations out of 1000 (max. 500000)
+ 390 words of extra memory for PDF output out of 10000 (max. 10000000)
 

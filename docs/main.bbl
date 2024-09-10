@@ -1,3 +1,47 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{HaberStornetta1991}
+Stuart Haber and W.~Scott Stornetta.
+\newblock How to time-stamp a digital document.
+\newblock {\em Journal of Cryptology}, 3(2):99--111, 1991.
+
+\bibitem{Nakamoto2008}
+Satoshi Nakamoto.
+\newblock Bitcoin: A peer-to-peer electronic cash system, 2008.
+\newblock Bitcoin.org.
+
+\bibitem{Bayer1993}
+Dave Bayer, Stuart Haber, and W.~Scott Stornetta.
+\newblock Improving the efficiency and reliability of digital time-stamping.
+\newblock In {\em Sequences II}, pages 329--334. 1993.
+
+\bibitem{BlockchainHealthcareExamples2022}
+Built In.
+\newblock Blockchain in healthcare: 18 examples to know, 2022.
+
+\bibitem{BlockchainHealthcare2021}
+Multiple Authors.
+\newblock Blockchain technology applications in the health domain: a multivocal
+  literature review.
+\newblock {\em The Journal of Supercomputing}, 2021.
+
+\bibitem{BlockchainGaming2021}
+Plisio.net.
+\newblock Blockchain games: The gaming revolution that lets you earn.
+\newblock 2021.
+
+\bibitem{CointelegraphGaming2022}
+Cointelegraph.
+\newblock 5 reasons why blockchain-based gaming economies are the future.
+\newblock 2022.
+
+\bibitem{EthereumGaming2023}
+Doubloin.
+\newblock Ethereum in gaming: Ushering in the era of decentralized play, 2023.
+
+\bibitem{CoreDevsLtd2023}
+Core~Devs Ltd.
+\newblock Blockchain gaming: How decentralized technology is changing the game.
+\newblock 2023.
 
 \end{thebibliography}

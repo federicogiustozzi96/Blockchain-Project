@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  8 SEP 2024 18:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.9.1)  10 SEP 2024 23:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -569,41 +569,41 @@ File: ../src/diagrams/Smart contract class diagram.jpg Graphic file (type jpg)
 <use ../src/diagrams/Smart contract class diagram.jpg>
 Package pdftex.def Info: ../src/diagrams/Smart contract class diagram.jpg  used on input line 35.
 (pdftex.def)             Requested size: 219.2565pt x 309.08583pt.
-<../src/diagrams/Use Case Diagram.jpg, id=54, 677.53125pt x 407.5225pt>
+<../src/diagrams/Use Case Diagram.jpg, id=54, 690.58pt x 701.62125pt>
 File: ../src/diagrams/Use Case Diagram.jpg Graphic file (type jpg)
 <use ../src/diagrams/Use Case Diagram.jpg>
 Package pdftex.def Info: ../src/diagrams/Use Case Diagram.jpg  used on input line 49.
-(pdftex.def)             Requested size: 438.513pt x 263.76718pt.
- [2 <chapters/../src/diagrams/Smart contract class diagram.jpg>]
-<../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg, id=60, 1388.18625pt x 721.69624pt>
+(pdftex.def)             Requested size: 438.513pt x 445.52454pt.
+ [2 <chapters/../src/diagrams/Smart contract class diagram.jpg>] [3 <chapters/../src/diagrams/Use Case Diagram.jpg>]
+<../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg, id=65, 1388.18625pt x 721.69624pt>
 File: ../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg Graphic file (type jpg)
 <use ../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg>
-Package pdftex.def Info: ../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg  used on input line 67.
+Package pdftex.def Info: ../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg  used on input line 69.
 (pdftex.def)             Requested size: 438.513pt x 227.97423pt.
- [3 <chapters/../src/diagrams/Use Case Diagram.jpg>]
 <../src/diagrams/Minigames.jpg, id=66, 1367.1075pt x 757.83125pt>
 File: ../src/diagrams/Minigames.jpg Graphic file (type jpg)
 <use ../src/diagrams/Minigames.jpg>
-Package pdftex.def Info: ../src/diagrams/Minigames.jpg  used on input line 80.
+Package pdftex.def Info: ../src/diagrams/Minigames.jpg  used on input line 82.
 (pdftex.def)             Requested size: 438.513pt x 243.07756pt.
- [4 <chapters/../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg> <chapters/../src/diagrams/Minigames.jpg>]
-<../src/diagrams/Quiz.jpg, id=73, 1103.12125pt x 610.28pt>
+ [4 <chapters/../src/diagrams/Metamask wallet connection + First wallet connection - registration.jpg>]
+<../src/diagrams/Quiz.jpg, id=72, 1103.12125pt x 610.28pt>
 File: ../src/diagrams/Quiz.jpg Graphic file (type jpg)
 <use ../src/diagrams/Quiz.jpg>
-Package pdftex.def Info: ../src/diagrams/Quiz.jpg  used on input line 93.
+Package pdftex.def Info: ../src/diagrams/Quiz.jpg  used on input line 95.
 (pdftex.def)             Requested size: 438.513pt x 242.5991pt.
-<../src/diagrams/Buy Donuts.jpg, id=74, 1310.8975pt x 694.595pt>
+ [5 <chapters/../src/diagrams/Minigames.jpg>]
+<../src/diagrams/Buy Donuts.jpg, id=78, 1310.8975pt x 694.595pt>
 File: ../src/diagrams/Buy Donuts.jpg Graphic file (type jpg)
 <use ../src/diagrams/Buy Donuts.jpg>
-Package pdftex.def Info: ../src/diagrams/Buy Donuts.jpg  used on input line 106.
+Package pdftex.def Info: ../src/diagrams/Buy Donuts.jpg  used on input line 108.
 (pdftex.def)             Requested size: 438.513pt x 232.35426pt.
- [5 <chapters/../src/diagrams/Quiz.jpg>]
-<../src/diagrams/Sell Donuts.jpg, id=80, 1281.78876pt x 729.72626pt>
+ [6 <chapters/../src/diagrams/Quiz.jpg> <chapters/../src/diagrams/Buy Donuts.jpg>]
+<../src/diagrams/Sell Donuts.jpg, id=85, 1281.78876pt x 729.72626pt>
 File: ../src/diagrams/Sell Donuts.jpg Graphic file (type jpg)
 <use ../src/diagrams/Sell Donuts.jpg>
-Package pdftex.def Info: ../src/diagrams/Sell Donuts.jpg  used on input line 119.
+Package pdftex.def Info: ../src/diagrams/Sell Donuts.jpg  used on input line 121.
 (pdftex.def)             Requested size: 438.513pt x 249.64024pt.
- [6 <chapters/../src/diagrams/Buy Donuts.jpg> <chapters/../src/diagrams/Sell Donuts.jpg>] [7] (chapters/4-Software_Architecture.aux)
+ [7 <chapters/../src/diagrams/Sell Donuts.jpg>] (chapters/4-Software_Architecture.aux)
 Package rerunfilecheck Info: File `4-Software_Architecture.out' has not changed.
 (rerunfilecheck)             Checksum: 4FB82E22F3C69D4AAF27F25C0310808D;1850.
  ) 
@@ -614,9 +614,9 @@ Here is how much of TeX's memory you used:
  31153 multiletter control sequences out of 15000+600000
  471075 words of font info for 34 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 87i,6n,94p,430b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 87i,6n,94p,491b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on chapters/4-Software_Architecture.pdf (7 pages, 734360 bytes).
+Output written on chapters/4-Software_Architecture.pdf (7 pages, 748816 bytes).
 PDF statistics:
  111 PDF objects out of 1000 (max. 8388607)
  89 compressed objects within 1 object stream

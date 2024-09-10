@@ -4,44 +4,49 @@ The top-level auxiliary file: main.aux
 A level-1 auxiliary file: title.aux
 The style file: unsrt.bst
 Database file #1: ref.bib
-You've used 0 entries,
+Warning--empty publisher in Bayer1993
+Warning--empty journal in BlockchainGaming2021
+Warning--empty journal in CointelegraphGaming2022
+Warning--empty journal in CoreDevsLtd2023
+You've used 9 entries,
             1791 wiz_defined-function locations,
-            446 strings with 3518 characters,
-and the built_in function-call counts, 18 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+            494 strings with 4669 characters,
+and the built_in function-call counts, 1514 in all, are:
+= -- 130
+> -- 47
+< -- 1
++ -- 21
+- -- 12
+* -- 58
+:= -- 240
+add.period$ -- 26
+call.type$ -- 9
+change.case$ -- 9
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 13
+duplicate$ -- 78
+empty$ -- 172
+format.name$ -- 12
+if$ -- 342
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 3
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 9
+missing$ -- 6
+newline$ -- 46
+num.names$ -- 9
+pop$ -- 47
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1
+skip$ -- 41
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 54
+swap$ -- 15
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
-warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 2
+warning$ -- 4
+while$ -- 14
+width$ -- 10
+write$ -- 87
+(There were 4 warnings)

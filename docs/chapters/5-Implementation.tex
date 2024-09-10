@@ -4,12 +4,12 @@
 
 \section{Implementation}\label{sec:implementation}
 
-This chapter provides an overview of the implementation of the Donuts Games dApp, starting with the smart contract responsible for managing Donut Tokens (DNT), including functions for token creation, transfers, buying, selling, and reward distribution. It then describes the backend integration with the Ethereum blockchain using \texttt{ethers.js}, enabling interactions with the smart contract. Lastly, the chapter covers the testing strategy used to verify the correct operation of the smart contract.
+This chapter provides an overview of the implementation of the Donuts Games dApp, starting with the smart contract responsible for managing Donut Tokens (DNT), including functions for token creation, transfers, buying, selling, and reward distribution. It then describes the backend integration with the Ethereum blockchain using \texttt{ethers.js}, which facilitates interactions with the smart contract for token transactions, rewards management. Additionally, the chapter covers the deployment process of the smart contract to the Ethereum blockchain and concludes with the testing strategy used to verify the correct operation of the smart contract, including tests for token transfers, purchases, sales, and rewards distribution.
 
 % --- SMART CONTRACT - TOKEN.SOL ---
 
 \subsection{Smart Contract - Token.sol}
-The core of the dApp is the Donut Token smart contract, which manages token creation, transfers, and NFT minting. Written in Solidity, the contract defines the platform’s token economy, with 1,000,000 DNT tokens initially assigned to the contract owner.
+The core of the dApp is the Donut Token smart contract, which manages token creation and transfers. Written in Solidity, the contract defines the platform’s token economy, with 1,000,000 DNT tokens initially assigned to the contract owner.
 
 \subsubsection{Token Creation and Initialization}
 The contract initializes the name, symbol, and total supply of the token, assigning the full supply to the deployer's address. 
@@ -188,7 +188,7 @@ main()
 % --- BACKEND INTERACTIONS ---
 
 \subsection{Backend.js Module}
-The \texttt{backend.js} module facilitates interactions between the dApp's backend and the Ethereum smart contract. Using \textbf{ethers.js}, it manages token transactions, rewards, and NFTs.
+The \texttt{backend.js} module facilitates interactions between the dApp's backend and the Ethereum smart contract. Using \textbf{ethers.js}, it manages token transactions and rewards.
 
 \subsubsection{Configuring the Provider and Wallet}
 The module initializes a connection to the Ethereum network using a provider and configures the wallet using private keys.
@@ -201,6 +201,7 @@ const wallet = new ethers.Wallet(privateKey, provider);
 
 \subsubsection{Contract Connection}
 An instance of the contract is created using its ABI and address, allowing the backend to interact with the deployed contract.
+%ABI (Application Binary Interface) si riferisce all'interfaccia che descrive come un contratto intelligente su Ethereum può essere interagito dall'esterno, ad esempio tramite il backend di una DApp.
 
 \begin{verbatim}
 const contractAddress = process.env.CONTRACT_ADDRESS;
