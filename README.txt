@@ -47,7 +47,6 @@ Create a `.env` file in the root directory of the project and add the necessary 
 
 ```
 PRIVATE_KEY=<Your_Private_Key>
-INFURA_API_KEY=<Your_Infura_API_Key>
 MYSQL_USER=<Your_MySQL_Username>
 MYSQL_PASSWORD=<Your_MySQL_Password>
 MYSQL_DATABASE=<Your_Database_Name>
