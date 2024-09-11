@@ -1,4 +1,4 @@
-// scripts/deploy.js
+// scripts/deployToken.js
 
 /**
  * dichiarata come asincrona (async) perché contiene operazioni asincrone come il deploy del contratto.
