@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Lug 24, 2024 alle 20:26
+-- Creato il: Set 11, 2024 alle 12:24
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Blockchain_project`
+-- Database: `blockchain_project`
 --
 
 -- --------------------------------------------------------
@@ -41,10 +41,8 @@ CREATE TABLE `Scores` (
 --
 
 INSERT INTO `Scores` (`id`, `username`, `tetris`, `snake`, `minesweeper`, `total`) VALUES
-(18, 'stefano', 0, 6, 18, 24),
-(19, 'prova', 0, 0, 18, 18),
-(20, 'prova2', 166, 0, 0, 166),
-(21, 'kkmkmk', 0, 6, 0, 6);
+(27, 'AndreaN', 0, 6, 0, 6),
+(28, 'Drawave', 220, 138, 12, 370);
 
 --
 -- Trigger `Scores`
@@ -58,6 +56,26 @@ CREATE TRIGGER `before_scores_update` BEFORE UPDATE ON `Scores` FOR EACH ROW SET
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `Users`
+--
+
+CREATE TABLE `Users` (
+  `wallet_address` varchar(42) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `Users`
+--
+
+INSERT INTO `Users` (`wallet_address`, `username`, `created_at`) VALUES
+('0x44f44e08313b11aaf39df7615e217173e7faa8de', 'AndreaN', '2024-08-26 14:41:27'),
+('0x7315f055568e819cdba3861afb3b92fdf8fd1556', 'Drawave', '2024-08-27 15:03:13');
+
 --
 -- Indici per le tabelle scaricate
 --
@@ -69,6 +87,13 @@ ALTER TABLE `Scores`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indici per le tabelle `Users`
+--
+ALTER TABLE `Users`
+  ADD PRIMARY KEY (`wallet_address`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
@@ -76,7 +101,7 @@ ALTER TABLE `Scores`
 -- AUTO_INCREMENT per la tabella `Scores`
 --
 ALTER TABLE `Scores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
